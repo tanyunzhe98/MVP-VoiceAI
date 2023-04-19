@@ -12,13 +12,20 @@
     "dev": "webpack serve --open"
   },
   "dependencies": {
+    "@types/dom-speech-recognition": "^0.0.1",
+    "axios": "^1.3.5",
+    "bootstrap": "^4.6.0",
+    "openai": "^3.2.1",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
     "@babel/preset-env": "^7.21.4",
     "@babel/preset-react": "^7.18.6",
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",
     "style-loader": "^3.3.2",
