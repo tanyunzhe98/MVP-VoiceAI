@@ -3,14 +3,14 @@ const axios = require ('axios'); // .require("dotenv").config(); .env config
 const { Configuration, OpenAIApi } = require("openai");
 // openai.api_key = apiKey;
 const configuration = new Configuration({
-  apiKey: "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",
+  apiKey: "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",
 });
 
 const submitText = (params, callback) => {
   //console.log(params.input_text);
   const openai = new OpenAIApi(configuration);
   openai.createCompletion({
-    model: "gpt-3.5-turbo",
+    model: "text-davinci-003",
     prompt: params.input_text,
     max_tokens: 100,
     temperature: 0.5,

@@ -9,6 +9,7 @@ function MessageList({ messages }) {
         react_1.default.createElement("strong", null,
             message.role,
             ": "),
-        message.content)))));
+        message.content,
+        message.response)))));
 }
 exports.default = MessageList;

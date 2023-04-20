@@ -8,6 +8,7 @@ import NewThemeButton from './NewThemeButton';
 interface Message {
   role: string;
   content: string;
+  response: string;
 }
 
 interface Theme {
@@ -19,22 +20,38 @@ function ChatPage() {
   const [themes, setThemes] = useState<Theme[]>([]);
   const [selectedTheme, setSelectedTheme] = useState<string>('');
 
-  function addTheme(themeName: string) {
-    const newTheme = {
-      name: themeName,
-      messages: []
-    };
+  function addTheme(themeName: string, message?:string, res?:string) {
+    if (themes.some(theme => theme.name === themeName)) {
+      alert(`Cannot add ${themeName}, name already exists`);
+      return;
+    }
+    var newTheme;
+    if (!message || !res) {
+      newTheme = {
+        name: themeName,
+        messages: []
+      };
+    } else {
+      newTheme = {
+        name: themeName,
+        messages: [{role: 'user', content: message, response: res}]
+      };
+    }
+    // const newTheme = {
+    //   name: themeName,
+    //   messages: [{role: 'user', content: message}]??[]
+    // };
     setThemes([...themes, newTheme]);
     setSelectedTheme(themeName);
   }
 
-  function addMessage(role: string, content: string) {
+  function addMessage(role: string, content: string, response: string) {
     if (selectedTheme) {
       const updatedThemes = themes.map(theme => {
         if (theme.name === selectedTheme) {
           return {
             ...theme,
-            messages: [...theme.messages, { role, content }]
+            messages: [...theme.messages, { role, content, response }]
           };
         } else {
           return theme;
@@ -83,7 +100,15 @@ function ChatPage() {
       </Row>
       <Row className="mt-5">
         <Col>
-          {selectedTheme ? (
+            <div>
+              <ThemeList
+                themes={themes.map(theme => theme.name)}
+                onThemeSelect={setSelectedTheme}
+                onThemeEdit={changeThemeName}
+                onThemeDelete={deleteTheme}
+              />
+              <NewThemeButton onAddTheme={addTheme} />
+            </div>
             <div>
               <Button variant="secondary" onClick={() => setSelectedTheme('')}>
                 Back
@@ -94,19 +119,8 @@ function ChatPage() {
                   themes.find(theme => theme.name === selectedTheme)?.messages ?? []
                 }
               />
-              <ChatBox onAddMessage={addMessage} />
+              <ChatBox onAddMessage={addMessage} selectedTheme={selectedTheme} setSelectedTheme={setSelectedTheme} addTheme={addTheme} themes = {themes}/>
             </div>
-          ) : (
-            <div>
-              <ThemeList
-                themes={themes.map(theme => theme.name)}
-                onThemeSelect={setSelectedTheme}
-                onThemeEdit={changeThemeName}
-                onThemeDelete={deleteTheme}
-              />
-              <NewThemeButton onAddTheme={addTheme} />
-            </div>
-          )}
         </Col>
       </Row>
     </Container>

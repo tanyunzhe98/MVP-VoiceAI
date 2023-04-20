@@ -7,6 +7,7 @@ interface MessageListProp {
 interface Message {
   role: string;
   content: string;
+  response: string;
 }
 
 function MessageList({messages}:MessageListProp) {
@@ -16,6 +17,7 @@ function MessageList({messages}:MessageListProp) {
         <li key={index}>
           <strong>{message.role}: </strong>
           {message.content}
+          {message.response}
         </li>
       ))}
     </ul>

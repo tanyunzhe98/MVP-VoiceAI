@@ -2,50 +2,84 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 interface ChatBoxProp {
-  onAddMessage: (role: string, content: string) => void;
+  onAddMessage: (role: string, content: string, response: string) => void;
+  selectedTheme: string;
+  setSelectedTheme : (themeName: string) => void;
+  addTheme :(themeName : string, message ?: string, response ?: string) => void;
+  themes: Theme[];
 }
 
-function ChatBox ({ onAddMessage }:ChatBoxProp) {
+interface Theme {
+  name: string;
+  messages: Message[];
+}
+
+interface Message {
+  role: string;
+  content: string;
+  response: string;
+}
+
+
+function ChatBox ({ onAddMessage, selectedTheme, setSelectedTheme, themes, addTheme}:ChatBoxProp) {
   const [prompts, setPrompts] = useState<{role: string, content: string}[]>([{ role: 'system', content: 'You are a helpful assistant. Answer as concisely as possible with a little humor expression.' }]);
-  const [themes, setThemes] = useState({
-    theme1: [
-      { role: 'system', content: 'You are a helpful assistant. Answer as concisely as possible with a little humor expression.' }
-    ]
-  });
+  //const [theme, setTheme] = useState(selectedTheme);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [voicemessage, setVoicemessage] = useState<string>('');
   const [inputText, setInputText] = useState<string>('');
   const [response, setResponse] = useState<any>('');
 
   const generateResponse = async (prompt: string) => {
-    onAddMessage( 'user', prompt );
     const chatHistory = prompts.concat([{ role: 'user', content: prompt }]);
     var res;
     if ( prompts.length >= 5  ) {
       res = await axios.post('/text', {
-        input_text: prompts.slice(prompts.length-5, prompts.length).map(p => p.content).join(' ') + ' ' + prompt,
+        input_text: selectedTheme + prompts.slice(prompts.length-5, prompts.length).map(p => p.content).join(' ') + ' ' + prompt,
         chat_history: chatHistory,
       });
     } else {
       res = await axios.post('/text', {
-        input_text: prompts.slice(0, prompts.length).map(p => p.content).join(' ') + ' ' + prompt,
+        input_text: selectedTheme + prompts.slice(0, prompts.length).map(p => p.content).join(' ') + ' ' + prompt,
         chat_history: chatHistory,
       });
     }
     const message = res.data;
+    if (selectedTheme === '') {
+      var text = await axios.post('/text', {
+        input_text: 'generate this sentence a 5-word or less title:' + inputText,
+      });
+      setSelectedTheme(text.data);
+      addTheme(text.data, prompt, res.data);
+    }
+    onAddMessage( 'user', prompt, res.data);
     setPrompts(chatHistory);
     setInputText('');
     setResponse(message);
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('inputText',inputText);
+    console.log(selectedTheme);
+    // if (selectedTheme === '') {
+    //   var res = await axios.post('/text', {
+    //     input_text: 'generate this sentence a 5-word or less title:' + inputText,
+    //   });
+    //   setSelectedTheme(res.data);
+    //   addTheme(res.data, inputText);
+    // }
     generateResponse(inputText);
   };
 
-  const handlemessage = (mes: string) => {
+  const handlemessage =async (mes: string) => {
     //console.log('voicemessage', voicemessage);
+    // if (selectedTheme === '') {
+    //   var res = await axios.post('/text', {
+    //     input_text: 'generate this sentence a 5-word or less title:' + mes,
+    //   });
+    //   setSelectedTheme(res.data);
+    //   addTheme(res.data, mes);
+    // }
       generateResponse(mes);
   };
 

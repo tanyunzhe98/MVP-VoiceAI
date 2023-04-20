@@ -37,47 +37,65 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
 const axios_1 = __importDefault(require("axios"));
-function ChatBox({ onAddMessage }) {
+function ChatBox({ onAddMessage, selectedTheme, setSelectedTheme, themes, addTheme }) {
     const [prompts, setPrompts] = (0, react_1.useState)([{ role: 'system', content: 'You are a helpful assistant. Answer as concisely as possible with a little humor expression.' }]);
-    const [themes, setThemes] = (0, react_1.useState)({
-        theme1: [
-            { role: 'system', content: 'You are a helpful assistant. Answer as concisely as possible with a little humor expression.' }
-        ]
-    });
+    //const [theme, setTheme] = useState(selectedTheme);
     const [isRecording, setIsRecording] = (0, react_1.useState)(false);
     const [voicemessage, setVoicemessage] = (0, react_1.useState)('');
     const [inputText, setInputText] = (0, react_1.useState)('');
     const [response, setResponse] = (0, react_1.useState)('');
     const generateResponse = (prompt) => __awaiter(this, void 0, void 0, function* () {
-        onAddMessage('user', prompt);
         const chatHistory = prompts.concat([{ role: 'user', content: prompt }]);
         var res;
         if (prompts.length >= 5) {
             res = yield axios_1.default.post('/text', {
-                input_text: prompts.slice(prompts.length - 5, prompts.length).map(p => p.content).join(' ') + ' ' + prompt,
+                input_text: selectedTheme + prompts.slice(prompts.length - 5, prompts.length).map(p => p.content).join(' ') + ' ' + prompt,
                 chat_history: chatHistory,
             });
         }
         else {
             res = yield axios_1.default.post('/text', {
-                input_text: prompts.slice(0, prompts.length).map(p => p.content).join(' ') + ' ' + prompt,
+                input_text: selectedTheme + prompts.slice(0, prompts.length).map(p => p.content).join(' ') + ' ' + prompt,
                 chat_history: chatHistory,
             });
         }
         const message = res.data;
+        if (selectedTheme === '') {
+            var text = yield axios_1.default.post('/text', {
+                input_text: 'generate this sentence a 5-word or less title:' + inputText,
+            });
+            setSelectedTheme(text.data);
+            addTheme(text.data, prompt, res.data);
+        }
+        onAddMessage('user', prompt, res.data);
         setPrompts(chatHistory);
         setInputText('');
         setResponse(message);
     });
-    const handleSubmit = (event) => {
+    const handleSubmit = (event) => __awaiter(this, void 0, void 0, function* () {
         event.preventDefault();
         console.log('inputText', inputText);
+        console.log(selectedTheme);
+        // if (selectedTheme === '') {
+        //   var res = await axios.post('/text', {
+        //     input_text: 'generate this sentence a 5-word or less title:' + inputText,
+        //   });
+        //   setSelectedTheme(res.data);
+        //   addTheme(res.data, inputText);
+        // }
         generateResponse(inputText);
-    };
-    const handlemessage = (mes) => {
+    });
+    const handlemessage = (mes) => __awaiter(this, void 0, void 0, function* () {
         //console.log('voicemessage', voicemessage);
+        // if (selectedTheme === '') {
+        //   var res = await axios.post('/text', {
+        //     input_text: 'generate this sentence a 5-word or less title:' + mes,
+        //   });
+        //   setSelectedTheme(res.data);
+        //   addTheme(res.data, mes);
+        // }
         generateResponse(mes);
-    };
+    });
     const toggleRecording = () => {
         if (!isRecording) {
             const recognition = new window.webkitSpeechRecognition();
