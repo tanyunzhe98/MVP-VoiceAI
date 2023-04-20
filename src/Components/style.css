@@ -1,5 +1,5 @@
 .main-page-container {
-  height: 100vh;
+  height: 70vh;
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -70,4 +70,38 @@
   margin-bottom: 30px;
   padding-bottom: 30px;
   padding-top: 30px;
+}
+
+.chatpage {
+  display: flex;
+  flex-direction: row;
+  height: 70vh;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  background-color: #187ce0;
+  padding: 0.5rem;
+}
+
+/* .col-md-9 {
+  padding-left: 25%;
+} */
+
+.chat-box {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+}
+
+.new-theme-button {
+  height: 57px !important;
+}
+
+.custom-text-field input {
+  height: 20px !important;
 }

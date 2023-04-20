@@ -24,16 +24,52 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
+const core_1 = require("@material-ui/core");
+const icons_1 = require("@material-ui/icons");
 function NewThemeButton({ onAddTheme }) {
     const [themeName, setThemeName] = (0, react_1.useState)('');
+    const [showInput, setShowInput] = (0, react_1.useState)(false);
     const handleAddTheme = () => {
         if (themeName.trim()) {
             onAddTheme(themeName.trim());
+            setShowInput(false);
             setThemeName('');
         }
     };
-    return (react_1.default.createElement("div", null,
-        react_1.default.createElement("input", { type: "text", placeholder: "Enter a new theme name", value: themeName, onChange: (event) => setThemeName(event.target.value) }),
-        react_1.default.createElement("button", { onClick: handleAddTheme }, "Add")));
+    const handleShowInput = () => {
+        setShowInput(true);
+    };
+    const handleCancelInput = () => {
+        setShowInput(false);
+        setThemeName('');
+    };
+    const useStyles = (0, core_1.makeStyles)((theme) => ({
+        whiteBorder: {
+            borderColor: 'white !important',
+            borderWidth: 1,
+            borderRadius: 4
+        }
+    }));
+    const classes = useStyles();
+    return (react_1.default.createElement("div", { style: { display: 'flex', alignItems: 'center' } }, showInput ? (react_1.default.createElement("div", { style: { flex: 1 } },
+        react_1.default.createElement(core_1.TextField, { variant: "outlined", value: themeName, onChange: (event) => setThemeName(event.target.value), InputLabelProps: {
+                style: {
+                    color: 'white'
+                }
+            }, InputProps: {
+                style: {
+                    color: 'white',
+                    borderColor: 'white'
+                },
+                endAdornment: (react_1.default.createElement(react_1.default.Fragment, null,
+                    react_1.default.createElement(core_1.IconButton, { style: { color: 'white' }, onClick: handleAddTheme },
+                        react_1.default.createElement(icons_1.Check, null)),
+                    react_1.default.createElement(core_1.IconButton, { style: { color: 'white' }, onClick: handleCancelInput },
+                        react_1.default.createElement(icons_1.Clear, null)))),
+                classes: {
+                    notchedOutline: classes.whiteBorder // 使用自定义类名
+                }
+            }, className: "custom-text-field", style: { width: '100%', borderColor: 'white' } }))) : (react_1.default.createElement("div", { style: { flex: 1 } },
+        react_1.default.createElement(core_1.Button, { className: "new-theme-button", onClick: handleShowInput, variant: "outlined", style: { borderColor: 'white', color: 'white', height: '100%', width: '100%' } }, "+ New theme")))));
 }
 exports.default = NewThemeButton;

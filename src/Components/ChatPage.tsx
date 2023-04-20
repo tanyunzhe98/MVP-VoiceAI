@@ -92,38 +92,29 @@ function ChatPage() {
   }
 
   return (
-    <Container>
-      <Row className="mt-5">
-        <Col>
-          <h1>ChatGPT</h1>
-        </Col>
-      </Row>
-      <Row className="mt-5">
-        <Col>
-            <div>
-              <ThemeList
-                themes={themes.map(theme => theme.name)}
-                onThemeSelect={setSelectedTheme}
-                onThemeEdit={changeThemeName}
-                onThemeDelete={deleteTheme}
-              />
-              <NewThemeButton onAddTheme={addTheme} />
-            </div>
-            <div>
-              <Button variant="secondary" onClick={() => setSelectedTheme('')}>
-                Back
-              </Button>
-              <h2>{selectedTheme}</h2>
-              <MessageList
-                messages={
-                  themes.find(theme => theme.name === selectedTheme)?.messages ?? []
-                }
-              />
-              <ChatBox onAddMessage={addMessage} selectedTheme={selectedTheme} setSelectedTheme={setSelectedTheme} addTheme={addTheme} themes = {themes}/>
-            </div>
-        </Col>
-      </Row>
-    </Container>
+      <div className='chatpage'>
+        <div className="menu">
+      <NewThemeButton onAddTheme={addTheme} />
+      <ThemeList
+        themes={themes.map(theme => theme.name)}
+        onThemeSelect={setSelectedTheme}
+        onThemeEdit={changeThemeName}
+        onThemeDelete={deleteTheme}
+        selectedTheme={selectedTheme} />
+    </div>
+    <div className="mainchat">
+    <Button variant="secondary" onClick={() => setSelectedTheme('')}>
+        Back
+      </Button><h2>{selectedTheme}</h2><MessageList
+        messages={themes.find(theme => theme.name === selectedTheme)?.messages ?? []} /><ChatBox
+        onAddMessage={addMessage}
+        selectedTheme={selectedTheme}
+        setSelectedTheme={setSelectedTheme}
+        addTheme={addTheme}
+        themes={themes} />
+        </div>
+        </div>
+
   );
 }
 

@@ -6,9 +6,10 @@ interface Props {
   onThemeSelect: (themeName: string) => void;
   onThemeEdit: (oldThemeName: string, newThemeName: string) => void;
   onThemeDelete: (themeName: string) => void;
+  selectedTheme: string;
 }
 
-function ThemeList({ themes, onThemeSelect, onThemeEdit, onThemeDelete }: Props) {
+function ThemeList({ themes, onThemeSelect, onThemeEdit, onThemeDelete, selectedTheme }: Props) {
   function handleThemeEdit(oldThemeName: string, newThemeName: string) {
     if (oldThemeName !== newThemeName) {
       onThemeEdit(oldThemeName, newThemeName);
@@ -16,7 +17,7 @@ function ThemeList({ themes, onThemeSelect, onThemeEdit, onThemeDelete }: Props)
   }
 
   return (
-    <ul>
+    <div>
       {themes.map((theme) => (
         <ThemeListItem
           key={theme}
@@ -24,9 +25,10 @@ function ThemeList({ themes, onThemeSelect, onThemeEdit, onThemeDelete }: Props)
           onSelect={() => onThemeSelect(theme)}
           onEdit={handleThemeEdit}
           onDelete={() => onThemeDelete(theme)}
+          selectedTheme={selectedTheme}
         />
       ))}
-    </ul>
+    </div>
   );
 }
 
