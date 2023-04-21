@@ -2,7 +2,11 @@ import React from 'react';
 import { Container, Navbar, Button } from 'react-bootstrap';
 import './style.css';
 
-const Mainpage = (): JSX.Element => {
+interface MainpageProps {
+  onPageChange: () => void;
+}
+
+const Mainpage = ({onPageChange} : MainpageProps): JSX.Element => {
   return (
     <Container fluid className="main-page-container">
       <Navbar bg="primary" variant="dark">
@@ -18,7 +22,7 @@ const Mainpage = (): JSX.Element => {
         <p className="app-intro">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </p>
-        <Button variant="primary" size="lg">Try it</Button>
+        <Button variant="primary" size="lg" onClick={onPageChange}>Try it</Button>
         </div>
       </div>
       <div className="bottom-area">

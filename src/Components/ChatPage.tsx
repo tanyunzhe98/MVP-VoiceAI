@@ -7,6 +7,9 @@ import NewThemeButton from './NewThemeButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { IconButton } from '@material-ui/core';
 
+interface ChatPageProps {
+  onPageChange: () => void;
+}
 
 interface Message {
   role: string;
@@ -19,7 +22,7 @@ interface Theme {
   messages: Message[];
 }
 
-function ChatPage() {
+function ChatPage({onPageChange}:ChatPageProps) {
   const [themes, setThemes] = useState<Theme[]>([]);
   const [selectedTheme, setSelectedTheme] = useState<string>('');
   const [isSpeaking, setIsSpeaking] = React.useState(false);

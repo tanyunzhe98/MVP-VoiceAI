@@ -17,6 +17,17 @@ module.exports = {
         exclude: /node_modules/,
         loader: "babel-loader"
       },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'images',
+            },
+          },
+        ],
+      },
       // Second rule is to check for css files and load them with the following loaders
       {
         test: /\.css$/,

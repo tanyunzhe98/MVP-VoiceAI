@@ -4,11 +4,11 @@ import {
   ListItemAvatar,
   ListItemText,
   makeStyles,
-  ListItemSecondaryAction,
   IconButton
 } from '@material-ui/core';
 import { PlayArrow, Pause } from '@material-ui/icons';
-
+const user = require('./user_default.png').default;
+const robot = require('./robot_default.png').default;
 
 interface MessageListProp {
   messages: Message[];
@@ -65,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
   scrollContainer: {
     height: '400px',
     overflow: 'auto',
+    width: '700px',
+    maxWidth: '700px',
+    minWidth: '700px',
   },
   playButton: {
     color: theme.palette.primary.main,
@@ -76,6 +79,13 @@ function MessageList({ messages }: MessageListProp) {
   const [isSpeaking, setIsSpeaking] = React.useState(false);
   let synthRef = React.useRef<SpeechSynthesis | null>(null);
   let utteranceRef = React.useRef<SpeechSynthesisUtterance | null>(null);
+
+  React.useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage && lastMessage.response) {
+      speak(lastMessage.response);
+    }
+  }, [messages]);
 
   const synth = synthRef.current || window.speechSynthesis;
   const utterance = utteranceRef.current || new SpeechSynthesisUtterance();
@@ -104,13 +114,15 @@ function MessageList({ messages }: MessageListProp) {
           <div className={classes.listItem}>
             <div className={classes.userBubbleContainer}>
               <ListItemAvatar className={classes.avatar}>
-                <Avatar alt="user avatar" src="/path/to/user/avatar" />
+                <Avatar alt="user avatar" src={user}  style={{ width: '60px', height: '60px' }}
+                />
               </ListItemAvatar>
+              <div style={{ marginRight: '5px' }} />
               <ListItemText className={classes.userBubble} primary={message.content} />
             </div>
             <div className={classes.compBubbleContainer}>
               <ListItemAvatar className={classes.avatar}>
-                <Avatar alt="computer avatar" src="/path/to/computer/avatar" />
+                <Avatar alt="computer avatar" src={robot} style={{ width: '70px', height: '70px' }}/>
               </ListItemAvatar>
               <ListItemText className={classes.compBubble} primary={message.response} />
               <IconButton className={classes.playButton} onClick={() => {  if (isSpeaking) {

@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(require("react"));
 const core_1 = require("@material-ui/core");
 const icons_1 = require("@material-ui/icons");
+const user = require('./user_default.png').default;
+const robot = require('./robot_default.png').default;
 const useStyles = (0, core_1.makeStyles)((theme) => ({
     root: {
         width: '100%',
@@ -51,6 +53,9 @@ const useStyles = (0, core_1.makeStyles)((theme) => ({
     scrollContainer: {
         height: '400px',
         overflow: 'auto',
+        width: '700px',
+        maxWidth: '700px',
+        minWidth: '700px',
     },
     playButton: {
         color: theme.palette.primary.main,
@@ -61,6 +66,12 @@ function MessageList({ messages }) {
     const [isSpeaking, setIsSpeaking] = react_1.default.useState(false);
     let synthRef = react_1.default.useRef(null);
     let utteranceRef = react_1.default.useRef(null);
+    react_1.default.useEffect(() => {
+        const lastMessage = messages[messages.length - 1];
+        if (lastMessage && lastMessage.response) {
+            speak(lastMessage.response);
+        }
+    }, [messages]);
     const synth = synthRef.current || window.speechSynthesis;
     const utterance = utteranceRef.current || new SpeechSynthesisUtterance();
     utterance.volume = 1;
@@ -83,11 +94,12 @@ function MessageList({ messages }) {
         react_1.default.createElement("div", { className: classes.listItem },
             react_1.default.createElement("div", { className: classes.userBubbleContainer },
                 react_1.default.createElement(core_1.ListItemAvatar, { className: classes.avatar },
-                    react_1.default.createElement(core_1.Avatar, { alt: "user avatar", src: "/path/to/user/avatar" })),
+                    react_1.default.createElement(core_1.Avatar, { alt: "user avatar", src: user, style: { width: '60px', height: '60px' } })),
+                react_1.default.createElement("div", { style: { marginRight: '5px' } }),
                 react_1.default.createElement(core_1.ListItemText, { className: classes.userBubble, primary: message.content })),
             react_1.default.createElement("div", { className: classes.compBubbleContainer },
                 react_1.default.createElement(core_1.ListItemAvatar, { className: classes.avatar },
-                    react_1.default.createElement(core_1.Avatar, { alt: "computer avatar", src: "/path/to/computer/avatar" })),
+                    react_1.default.createElement(core_1.Avatar, { alt: "computer avatar", src: robot, style: { width: '70px', height: '70px' } })),
                 react_1.default.createElement(core_1.ListItemText, { className: classes.compBubble, primary: message.response }),
                 react_1.default.createElement(core_1.IconButton, { className: classes.playButton, onClick: () => {
                         if (isSpeaking) {

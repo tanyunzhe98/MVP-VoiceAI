@@ -33,7 +33,7 @@ const ThemeList_1 = __importDefault(require("./ThemeList"));
 const NewThemeButton_1 = __importDefault(require("./NewThemeButton"));
 const ChevronLeft_1 = __importDefault(require("@material-ui/icons/ChevronLeft"));
 const core_1 = require("@material-ui/core");
-function ChatPage() {
+function ChatPage({ onPageChange }) {
     var _a, _b;
     const [themes, setThemes] = (0, react_1.useState)([]);
     const [selectedTheme, setSelectedTheme] = (0, react_1.useState)('');

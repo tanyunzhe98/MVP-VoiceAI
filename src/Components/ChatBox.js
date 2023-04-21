@@ -148,7 +148,8 @@ function ChatBox({ onAddMessage, selectedTheme, setSelectedTheme, themes, addThe
     // };
     return (react_1.default.createElement("div", null,
         react_1.default.createElement("form", { onSubmit: handleSubmit, style: { display: 'flex', alignItems: 'center' } },
-            react_1.default.createElement("div", { style: { position: 'fixed', bottom: '4px', left: '300px', width: '60%', display: 'flex', alignItems: 'center', backgroundColor: '#fff' } },
+            react_1.default.createElement("div", { style: { position: 'fixed', bottom: '4px', left: '300px', width: '35%', display: 'flex', alignItems: 'center', backgroundColor: '#fff', marginLeft: '50%',
+                } },
                 react_1.default.createElement(core_1.TextField, { variant: "outlined", value: inputText, onChange: (e) => setInputText(e.target.value), placeholder: "Type a message...", style: { flexGrow: 1, marginRight: 1, borderRadius: '4px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)' } }),
                 react_1.default.createElement(core_1.IconButton, { type: "submit", "aria-label": "send", style: { color: '#007bff' } },
                     react_1.default.createElement(icons_1.Send, null)),

@@ -141,7 +141,8 @@ function ChatBox ({ onAddMessage, selectedTheme, setSelectedTheme, themes, addTh
   return (
     <div>
       <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center' }}>
-      <div style={{ position: 'fixed', bottom: '4px', left: '300px', width: '60%', display: 'flex', alignItems: 'center', backgroundColor: '#fff' }}>
+      <div style={{ position: 'fixed', bottom: '4px', left: '300px', width: '35%', display: 'flex', alignItems: 'center', backgroundColor: '#fff',   marginLeft: '50%',
+}}>
   <TextField
     variant="outlined"
     value={inputText}
