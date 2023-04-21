@@ -4,6 +4,9 @@ import ChatBox from './ChatBox';
 import MessageList from './MessageList';
 import ThemeList from './ThemeList';
 import NewThemeButton from './NewThemeButton';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import { IconButton } from '@material-ui/core';
+
 
 interface Message {
   role: string;
@@ -19,6 +22,7 @@ interface Theme {
 function ChatPage() {
   const [themes, setThemes] = useState<Theme[]>([]);
   const [selectedTheme, setSelectedTheme] = useState<string>('');
+  const [isSpeaking, setIsSpeaking] = React.useState(false);
 
   function addTheme(themeName: string, message?:string, res?:string) {
     if (themes.some(theme => theme.name === themeName)) {
@@ -91,6 +95,8 @@ function ChatPage() {
     setThemes(updatedThemes);
   }
 
+
+
   return (
       <div className='chatpage'>
         <div className="menu">
@@ -103,10 +109,13 @@ function ChatPage() {
         selectedTheme={selectedTheme} />
     </div>
     <div className="mainchat">
-    <Button variant="secondary" onClick={() => setSelectedTheme('')}>
-        Back
-      </Button><h2>{selectedTheme}</h2><MessageList
-        messages={themes.find(theme => theme.name === selectedTheme)?.messages ?? []} /><ChatBox
+    <IconButton style={{ color: '#187ce0' }} onClick={() => setSelectedTheme('')}>
+  <ChevronLeftIcon />
+</IconButton>
+      <MessageList
+        messages={themes.find(theme => theme.name === selectedTheme)?.messages ?? []}
+        />
+        <ChatBox
         onAddMessage={addMessage}
         selectedTheme={selectedTheme}
         setSelectedTheme={setSelectedTheme}

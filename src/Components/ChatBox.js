@@ -36,6 +36,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
+const core_1 = require("@material-ui/core");
+const icons_1 = require("@material-ui/icons");
 const axios_1 = __importDefault(require("axios"));
 function ChatBox({ onAddMessage, selectedTheme, setSelectedTheme, themes, addTheme }) {
     const [prompts, setPrompts] = (0, react_1.useState)([{ role: 'system', content: 'You are a helpful assistant. Answer as concisely as possible with a little humor expression.' }]);
@@ -72,7 +74,7 @@ function ChatBox({ onAddMessage, selectedTheme, setSelectedTheme, themes, addThe
         setInputText('');
         setResponse(message);
     });
-    const handleSubmit = (event) => __awaiter(this, void 0, void 0, function* () {
+    const handleSubmit = (event) => {
         event.preventDefault();
         console.log('inputText', inputText);
         console.log(selectedTheme);
@@ -84,7 +86,7 @@ function ChatBox({ onAddMessage, selectedTheme, setSelectedTheme, themes, addThe
         //   addTheme(res.data, inputText);
         // }
         generateResponse(inputText);
-    });
+    };
     const handlemessage = (mes) => __awaiter(this, void 0, void 0, function* () {
         //console.log('voicemessage', voicemessage);
         // if (selectedTheme === '') {
@@ -139,40 +141,18 @@ function ChatBox({ onAddMessage, selectedTheme, setSelectedTheme, themes, addThe
             setIsRecording(false);
         }
     };
-    const handleSpeak = () => {
-        let synth;
-        let utterance;
-        synth = window.speechSynthesis;
-        utterance = new SpeechSynthesisUtterance();
-        utterance.volume = 1;
-        utterance.rate = 1;
-        utterance.pitch = 1;
-        utterance.lang = 'en-US';
-        synth.onvoiceschanged = () => {
-            const voices = synth.getVoices();
-            utterance.voice = voices[0];
-        };
-        utterance.text = response;
-        console.log('running');
-        synth.speak(utterance);
-    };
     // const handleSpeak = () => {
     //     utterance.text = response;
     //     console.log('running');
     //     synth.speak(utterance);
     // };
     return (react_1.default.createElement("div", null,
-        react_1.default.createElement("div", null,
-            react_1.default.createElement("button", { onClick: toggleRecording },
-                isRecording ? 'Stop' : 'Start',
-                " Recording"),
-            react_1.default.createElement("div", null, voicemessage),
-            response && react_1.default.createElement("button", { onClick: handleSpeak }, "Speak"),
-            prompts.map((item, index) => (react_1.default.createElement("div", { key: index, className: item.role }, item.content))),
-            response && react_1.default.createElement("div", null, response)),
-        react_1.default.createElement("form", { onSubmit: handleSubmit },
-            react_1.default.createElement("input", { type: "text", value: inputText, onChange: (e) => setInputText(e.target.value) }),
-            react_1.default.createElement("button", { type: "submit" }, "Send"))));
+        react_1.default.createElement("form", { onSubmit: handleSubmit, style: { display: 'flex', alignItems: 'center' } },
+            react_1.default.createElement("div", { style: { position: 'fixed', bottom: '4px', left: '300px', width: '60%', display: 'flex', alignItems: 'center', backgroundColor: '#fff' } },
+                react_1.default.createElement(core_1.TextField, { variant: "outlined", value: inputText, onChange: (e) => setInputText(e.target.value), placeholder: "Type a message...", style: { flexGrow: 1, marginRight: 1, borderRadius: '4px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)' } }),
+                react_1.default.createElement(core_1.IconButton, { type: "submit", "aria-label": "send", style: { color: '#007bff' } },
+                    react_1.default.createElement(icons_1.Send, null)),
+                react_1.default.createElement(core_1.IconButton, { "aria-label": "toggle recording", onClick: toggleRecording, style: { color: '#007bff' } }, isRecording ? react_1.default.createElement(icons_1.MicOff, null) : react_1.default.createElement(icons_1.Mic, null))))));
 }
 ;
 exports.default = ChatBox;

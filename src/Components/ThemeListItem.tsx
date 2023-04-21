@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, IconButton, Box, TextField, ButtonGroup, Typography } from '@material-ui/core';
+import { Button, IconButton, Box, TextField, ButtonGroup, Typography, InputProps } from '@material-ui/core';
 import { Edit, Delete, Check, Clear, ChatBubble } from '@material-ui/icons';
 
 interface ThemeListItemProps {
@@ -9,6 +9,13 @@ interface ThemeListItemProps {
   onDelete: () => void;
   selectedTheme: string;
 }
+
+const inputStyle = {
+  color: 'white',
+  borderColor: 'transparent',
+  '&::before': { borderBottomColor: 'white' },
+  borderBottom: 'none'
+};
 
 function ThemeListItem({ themeName, onSelect, onEdit, onDelete, selectedTheme }: ThemeListItemProps) {
   const [isEditing, setIsEditing] = React.useState(false);
@@ -49,29 +56,31 @@ function ThemeListItem({ themeName, onSelect, onEdit, onDelete, selectedTheme }:
   }}
 >
   <ChatBubble style={{ fontSize: '24px', transform: 'scale(0.8)', color: 'white' }} />
+
   <TextField
-    variant="standard"
-    value={newThemeName}
-    onChange={(e) => setNewThemeName(e.target.value)}
-    inputProps={{
-      style: { color: 'white', borderColor: 'transparent' },
-      endAdornment: (
-        <React.Fragment>
-          <IconButton onClick={handleSaveClick} style={{ color: 'white' }}>
-            <Check />
-          </IconButton>
-          <IconButton onClick={handleCancelClick} style={{ color: 'white' }}>
-            <Clear />
-          </IconButton>
-        </React.Fragment>
-      )
-    }}
-    style={{ width: '95%', height: '25px', border: 'none', outline: 'none', marginTop: '-23px' }}
-    />
+  variant="standard"
+  value={newThemeName}
+  onChange={(e) => setNewThemeName(e.target.value)}
+  InputProps={{
+    style: inputStyle,
+    endAdornment: (
+      <React.Fragment>
+        <IconButton onClick={handleSaveClick} style={{ color: 'white' }}>
+          <Check />
+        </IconButton>
+        <IconButton onClick={handleCancelClick} style={{ color: 'white' }}>
+          <Clear />
+        </IconButton>
+      </React.Fragment>
+    )
+  }}
+  style={{ width: '95%', height: '25px', border: 'none', outline: 'none', marginTop: '-23px' }}
+/>
+
+
+
+
 </Box>
-
-
-
 
 
 </>

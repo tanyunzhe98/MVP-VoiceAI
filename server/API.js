@@ -3,7 +3,7 @@ const axios = require ('axios'); // .require("dotenv").config(); .env config
 const { Configuration, OpenAIApi } = require("openai");
 // openai.api_key = apiKey;
 const configuration = new Configuration({
-  apiKey: "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",
+  apiKey: "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",
 });
 
 const submitText = (params, callback) => {

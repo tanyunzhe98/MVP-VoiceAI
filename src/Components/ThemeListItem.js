@@ -6,6 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(require("react"));
 const core_1 = require("@material-ui/core");
 const icons_1 = require("@material-ui/icons");
+const inputStyle = {
+    color: 'white',
+    borderColor: 'transparent',
+    '&::before': { borderBottomColor: 'white' },
+    borderBottom: 'none'
+};
 function ThemeListItem({ themeName, onSelect, onEdit, onDelete, selectedTheme }) {
     const [isEditing, setIsEditing] = react_1.default.useState(false);
     const [newThemeName, setNewThemeName] = react_1.default.useState(themeName);
@@ -33,8 +39,8 @@ function ThemeListItem({ themeName, onSelect, onEdit, onDelete, selectedTheme })
                 paddingBottom: 0
             } },
             react_1.default.createElement(icons_1.ChatBubble, { style: { fontSize: '24px', transform: 'scale(0.8)', color: 'white' } }),
-            react_1.default.createElement(core_1.TextField, { variant: "standard", value: newThemeName, onChange: (e) => setNewThemeName(e.target.value), inputProps: {
-                    style: { color: 'white', borderColor: 'transparent' },
+            react_1.default.createElement(core_1.TextField, { variant: "standard", value: newThemeName, onChange: (e) => setNewThemeName(e.target.value), InputProps: {
+                    style: inputStyle,
                     endAdornment: (react_1.default.createElement(react_1.default.Fragment, null,
                         react_1.default.createElement(core_1.IconButton, { onClick: handleSaveClick, style: { color: 'white' } },
                             react_1.default.createElement(icons_1.Check, null)),

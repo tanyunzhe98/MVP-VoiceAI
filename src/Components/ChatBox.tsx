@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { TextField, IconButton } from '@material-ui/core';
+import { Send, Mic, MicOff } from '@material-ui/icons';
+
 import axios from 'axios';
 
 interface ChatBoxProp {
@@ -57,7 +60,7 @@ function ChatBox ({ onAddMessage, selectedTheme, setSelectedTheme, themes, addTh
     setResponse(message);
   }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('inputText',inputText);
     console.log(selectedTheme);
@@ -127,25 +130,6 @@ function ChatBox ({ onAddMessage, selectedTheme, setSelectedTheme, themes, addTh
     }
   };
 
-  const handleSpeak = () => {
-    let synth: SpeechSynthesis;
-    let utterance: SpeechSynthesisUtterance;
-    synth = window.speechSynthesis;
-    utterance = new SpeechSynthesisUtterance();
-    utterance.volume = 1;
-    utterance.rate = 1;
-    utterance.pitch = 1;
-    utterance.lang = 'en-US';
-    synth.onvoiceschanged = () => {
-    const voices = synth.getVoices();
-    utterance.voice = voices[0];
-    };
-    utterance.text = response;
-    console.log('running');
-    synth.speak(utterance);
-  }
-
-
   // const handleSpeak = () => {
   //     utterance.text = response;
   //     console.log('running');
@@ -156,21 +140,24 @@ function ChatBox ({ onAddMessage, selectedTheme, setSelectedTheme, themes, addTh
 
   return (
     <div>
-      <div>
-      <button onClick={toggleRecording}>{isRecording ? 'Stop' : 'Start'} Recording</button>
-      <div>{voicemessage}</div>
-      {response && <button onClick={handleSpeak}>Speak</button>}
-        {prompts.map((item, index) => (
-          <div key={index} className={item.role}>
-            {item.content}
-          </div>
-        ))}
-        {response && <div>{response}</div>}
-      </div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={inputText} onChange={(e) => setInputText(e.target.value)} />
-        <button type="submit">Send</button>
-      </form>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ position: 'fixed', bottom: '4px', left: '300px', width: '60%', display: 'flex', alignItems: 'center', backgroundColor: '#fff' }}>
+  <TextField
+    variant="outlined"
+    value={inputText}
+    onChange={(e) => setInputText(e.target.value)}
+    placeholder="Type a message..."
+    style={{ flexGrow: 1, marginRight: 1, borderRadius: '4px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)' }}
+  />
+  <IconButton type="submit" aria-label="send" style={{ color: '#007bff' }}>
+    <Send />
+  </IconButton>
+  <IconButton aria-label="toggle recording" onClick={toggleRecording} style={{ color: '#007bff' }}>
+    {isRecording ? <MicOff /> : <Mic />}
+  </IconButton>
+</div>
+    </form>
+
     </div>
   );
 };

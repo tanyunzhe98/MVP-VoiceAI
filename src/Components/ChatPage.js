@@ -27,15 +27,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
-const react_bootstrap_1 = require("react-bootstrap");
 const ChatBox_1 = __importDefault(require("./ChatBox"));
 const MessageList_1 = __importDefault(require("./MessageList"));
 const ThemeList_1 = __importDefault(require("./ThemeList"));
 const NewThemeButton_1 = __importDefault(require("./NewThemeButton"));
+const ChevronLeft_1 = __importDefault(require("@material-ui/icons/ChevronLeft"));
+const core_1 = require("@material-ui/core");
 function ChatPage() {
     var _a, _b;
     const [themes, setThemes] = (0, react_1.useState)([]);
     const [selectedTheme, setSelectedTheme] = (0, react_1.useState)('');
+    const [isSpeaking, setIsSpeaking] = react_1.default.useState(false);
     function addTheme(themeName, message, res) {
         if (themes.some(theme => theme.name === themeName)) {
             alert(`Cannot add ${themeName}, name already exists`);
@@ -108,8 +110,8 @@ function ChatPage() {
             react_1.default.createElement(NewThemeButton_1.default, { onAddTheme: addTheme }),
             react_1.default.createElement(ThemeList_1.default, { themes: themes.map(theme => theme.name), onThemeSelect: setSelectedTheme, onThemeEdit: changeThemeName, onThemeDelete: deleteTheme, selectedTheme: selectedTheme })),
         react_1.default.createElement("div", { className: "mainchat" },
-            react_1.default.createElement(react_bootstrap_1.Button, { variant: "secondary", onClick: () => setSelectedTheme('') }, "Back"),
-            react_1.default.createElement("h2", null, selectedTheme),
+            react_1.default.createElement(core_1.IconButton, { style: { color: '#187ce0' }, onClick: () => setSelectedTheme('') },
+                react_1.default.createElement(ChevronLeft_1.default, null)),
             react_1.default.createElement(MessageList_1.default, { messages: (_b = (_a = themes.find(theme => theme.name === selectedTheme)) === null || _a === void 0 ? void 0 : _a.messages) !== null && _b !== void 0 ? _b : [] }),
             react_1.default.createElement(ChatBox_1.default, { onAddMessage: addMessage, selectedTheme: selectedTheme, setSelectedTheme: setSelectedTheme, addTheme: addTheme, themes: themes }))));
 }
