@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { FormControl } from 'react-bootstrap';
-import { Button, InputAdornment, IconButton, TextField, makeStyles } from '@material-ui/core';
+import { Button, IconButton, TextField, makeStyles } from '@material-ui/core';
 import { Check, Clear } from '@material-ui/icons';
 
 interface NewThemeButtonProps {

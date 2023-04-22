@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
 import ChatBox from './ChatBox';
 import MessageList from './MessageList';
 import ThemeList from './ThemeList';

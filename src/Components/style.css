@@ -75,7 +75,7 @@
 .chatpage {
   display: flex;
   flex-direction: row;
-  height: 70vh;
+  height: 100vh;
 }
 
 .menu {
@@ -106,4 +106,8 @@
 
 .custom-text-field input {
   height: 20px !important;
+}
+
+button:hover {
+  background: 'linear-gradient(45deg, #8E2DE2 30%, #4A00E0 90%)'
 }

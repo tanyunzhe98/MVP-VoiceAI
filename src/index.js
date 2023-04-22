@@ -17,21 +17,11 @@ const App = () => {
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
     };
-    return (react_1.default.createElement("div", { style: {
-            position: "relative",
-            overflow: "hidden",
-            width: "100%",
-            height: "100%",
-        } },
-        react_1.default.createElement("div", { style: {
-                display: "flex",
-                width: "200%",
-                transform: `translateX(-${currentPage * 50}%)`,
-                transition: "transform 0.5s ease-in-out",
-            } },
-            react_1.default.createElement("div", { style: { width: "50%" } },
+    return (react_1.default.createElement("div", { style: { position: "relative", overflow: "hidden", width: "100%", height: "100vh" } },
+        react_1.default.createElement("div", { style: { display: "flex", width: "200%", transform: `translateX(-${currentPage * 50}%)`, transition: "transform 0.5s ease-in-out", height: "100%" } },
+            react_1.default.createElement("div", { style: { width: "50%", height: "100%" } },
                 react_1.default.createElement(Mainpage_1.default, { onPageChange: () => handlePageChange(Page.CHAT) })),
-            react_1.default.createElement("div", { style: { width: "50%" } },
+            react_1.default.createElement("div", { style: { width: "50%", height: "100%" } },
                 react_1.default.createElement(ChatPage_1.default, { onPageChange: () => handlePageChange(Page.MAIN) })))));
 };
 react_dom_1.default.render(react_1.default.createElement(App, null), document.getElementById("root"));

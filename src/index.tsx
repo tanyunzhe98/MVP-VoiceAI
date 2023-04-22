@@ -16,26 +16,12 @@ const App: React.FC = () => {
   };
 
   return (
-    <div
-      style={{
-        position: "relative",
-        overflow: "hidden",
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          width: "200%",
-          transform: `translateX(-${currentPage * 50}%)`,
-          transition: "transform 0.5s ease-in-out",
-        }}
-      >
-        <div style={{ width: "50%" }}>
+    <div style={{ position: "relative", overflow: "hidden", width: "100%", height: "100vh" }}>
+      <div style={{ display: "flex", width: "200%", transform: `translateX(-${currentPage * 50}%)`, transition: "transform 0.5s ease-in-out", height: "100%" }}>
+        <div style={{ width: "50%", height: "100%" }}>
           <Mainpage onPageChange={() => handlePageChange(Page.CHAT)} />
         </div>
-        <div style={{ width: "50%" }}>
+        <div style={{ width: "50%", height: "100%" }}>
           <ChatPage onPageChange={() => handlePageChange(Page.MAIN)} />
         </div>
       </div>
