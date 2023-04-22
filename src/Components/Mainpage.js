@@ -41,6 +41,7 @@ const Mainpage = ({ onPageChange }) => {
     const [showContent, setShowContent] = (0, react_1.useState)(false);
     const [showShare, setShowShare] = (0, react_1.useState)(false);
     const [imageLoaded, setImageLoaded] = (0, react_1.useState)(false);
+    const [user, setUser] = (0, react_1.useState)('');
     const handleImageLoad = () => {
         setImageLoaded(true);
     };
@@ -105,7 +106,7 @@ const Mainpage = ({ onPageChange }) => {
                         background: 'linear-gradient(45deg, #0077be 30%, #7b3d91 60%, #0051a8 90%)',
                         boxShadow: '0 3px 5px 2px rgba(0, 81, 168, .3)',
                     } }, "Share"))),
-        showLogin && react_1.default.createElement(login_1.default, { onClose: () => setShowLogin(false) }),
+        showLogin && react_1.default.createElement(login_1.default, { onClose: () => setShowLogin(false), setUser: setUser }),
         showRegister && react_1.default.createElement(Register_1.default, { onClose: () => setShowRegister(false), setShowLogin: setShowLogin }),
         showShare && react_1.default.createElement(Share_1.default, { onClose: () => setShowShare(false) })));
 };

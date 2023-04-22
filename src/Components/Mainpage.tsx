@@ -18,6 +18,7 @@ const Mainpage = ({onPageChange} : MainpageProps): JSX.Element => {
   const [showContent, setShowContent] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [user, setUser] = useState('');
   const handleImageLoad = () => {
     setImageLoaded(true);
   }
@@ -135,7 +136,7 @@ const Mainpage = ({onPageChange} : MainpageProps): JSX.Element => {
 </Button>
 </Box>
       </Box>
-      {showLogin && <Login onClose={() => setShowLogin(false)} />}
+      {showLogin && <Login onClose={() => setShowLogin(false)} setUser={setUser} />}
       {showRegister && <Register onClose={() => setShowRegister(false)} setShowLogin={setShowLogin} />}
       {showShare && <Share onClose={() => setShowShare(false)} />}
     </Box>
