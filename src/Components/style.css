@@ -108,6 +108,17 @@
   height: 20px !important;
 }
 
-button:hover {
-  background: 'linear-gradient(45deg, #8E2DE2 30%, #4A00E0 90%)'
+.button {
+  color: #fff !important;
+  background: linear-gradient(45deg, #0077be 30%, #7b3d91 60%, #0051a8 90%);
+  box-shadow: 0 3px 5px 2px rgba(0, 81, 168, .3);
+  transition: all 0.3s ease;
 }
+
+.button:hover {
+  background: linear-gradient(45deg, #1b66c2 30%, #7b3d91 60%, #0077be 90%);
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 6px 10px rgba(0, 81, 168, .3);
+}
+

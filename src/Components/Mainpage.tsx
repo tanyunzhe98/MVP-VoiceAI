@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './style.css';
 import Register from './Register';
-import Login from './login';
+import Login from './Login';
 import Share from './Share'
 import { Box, Typography, Button, Grid } from '@material-ui/core';
 import { Person, Lock, Reply } from '@material-ui/icons';
@@ -66,6 +66,18 @@ const Mainpage = ({onPageChange} : MainpageProps): JSX.Element => {
         {showContent ? (
   <Typography variant="body1" align="center" style={{ color: 'white', fontFamily: 'Helvetica' }}>
     The all-in-one app that will change the way you interact with your device. Our app is designed to revolutionize the way we communicate with technology by using the power of voice recognition and artificial intelligence. With voiceAI, you can use your voice to generate AI responses that can be transformed into spoken words. Plus, our app can recognize emotions in sound, which means you can experience a more personalized and intuitive conversation with your device. What's more, voiceAI also has the ability to generate pictures, making it a comprehensive application of AI.
+    <Button color="primary" onClick={() => setShowContent(false)}>
+  <span
+    style={{
+      backgroundImage:
+        'linear-gradient(45deg, white 30%, #00c5ff 60%, #ff4b1f 90%)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+    }}
+  >
+    Hide
+  </span>
+</Button>
   </Typography>
       ) : (
         <Grid container justifyContent="center">
@@ -87,11 +99,14 @@ const Mainpage = ({onPageChange} : MainpageProps): JSX.Element => {
       </Grid>
       )}
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button variant="contained" onClick={onPageChange}   style={{
-    color: '#fff',
-    background: 'linear-gradient(45deg, #0077be 30%, #7b3d91 60%, #0051a8 90%)',
-    boxShadow: '0 3px 5px 2px rgba(0, 81, 168, .3)',
-  }}>Try it</Button>
+        <Button
+  variant="contained"
+  onClick={onPageChange}
+  className = 'button'
+>
+  Try it
+</Button>
+
         </Box>
       </Box>
       <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, bgcolor: '#2b86c5', py: 4, width: '50%'}}>
@@ -100,11 +115,7 @@ const Mainpage = ({onPageChange} : MainpageProps): JSX.Element => {
     variant="contained"
     startIcon={<Person />}
     onClick={() => setShowLogin(true)}
-    style={{
-      color: '#fff',
-      background: 'linear-gradient(45deg, #0077be 30%, #7b3d91 60%, #0051a8 90%)',
-      boxShadow: '0 3px 5px 2px rgba(0, 81, 168, .3)',
-    }}
+    className = 'button'
   >
     Login
   </Button>
@@ -113,11 +124,7 @@ const Mainpage = ({onPageChange} : MainpageProps): JSX.Element => {
     variant="contained"
     startIcon={<Lock />}
     onClick={() => setShowRegister(true)}
-    style={{
-      color: '#fff',
-      background: 'linear-gradient(45deg, #0077be 30%, #7b3d91 60%, #0051a8 90%)',
-      boxShadow: '0 3px 5px 2px rgba(0, 81, 168, .3)',
-    }}
+    className = 'button'
   >
     Register
   </Button>
@@ -126,18 +133,14 @@ const Mainpage = ({onPageChange} : MainpageProps): JSX.Element => {
   variant="contained"
   endIcon={<Reply />}
   onClick={() => setShowShare(true)}
-  style={{
-    color: '#fff',
-    background: 'linear-gradient(45deg, #0077be 30%, #7b3d91 60%, #0051a8 90%)',
-    boxShadow: '0 3px 5px 2px rgba(0, 81, 168, .3)',
-  }}
+  className = 'button'
 >
   Share
 </Button>
 </Box>
       </Box>
-      {showLogin && <Login onClose={() => setShowLogin(false)} setUser={setUser} />}
-      {showRegister && <Register onClose={() => setShowRegister(false)} setShowLogin={setShowLogin} />}
+      {showLogin && <Login onClose={() => setShowLogin(false)}/>}
+      {showRegister && <Register onClose={() => setShowRegister(false)} setShowLogin={setShowLogin}/>}
       {showShare && <Share onClose={() => setShowShare(false)} />}
     </Box>
   );

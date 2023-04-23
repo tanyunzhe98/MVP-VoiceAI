@@ -37,7 +37,6 @@ function ChatPage({ onPageChange }) {
     var _a, _b;
     const [themes, setThemes] = (0, react_1.useState)([]);
     const [selectedTheme, setSelectedTheme] = (0, react_1.useState)('');
-    const [isSpeaking, setIsSpeaking] = react_1.default.useState(false);
     function addTheme(themeName, message, res) {
         if (themes.some(theme => theme.name === themeName)) {
             alert(`Cannot add ${themeName}, name already exists`);

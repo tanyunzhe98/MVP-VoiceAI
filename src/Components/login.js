@@ -30,9 +30,11 @@ const react_1 = __importStar(require("react"));
 const core_1 = require("@material-ui/core");
 const icons_1 = require("@material-ui/icons");
 const axios_1 = __importDefault(require("axios"));
-const Login = ({ onClose, setUser }) => {
+const UserContext_1 = __importDefault(require("../UserContext"));
+const Login = ({ onClose }) => {
     const [username, setUsername] = (0, react_1.useState)('');
     const [password, setPassword] = (0, react_1.useState)('');
+    const { setUser } = (0, react_1.useContext)(UserContext_1.default);
     const handleSubmit = (event) => {
         event.preventDefault();
         // Handle register logic here
@@ -48,6 +50,7 @@ const Login = ({ onClose, setUser }) => {
             .then(response => {
             setUser(username);
             console.log(response); // 返回用户的所有主题和主题内的所有消息
+            onClose();
         })
             .catch(error => {
             console.log(error);

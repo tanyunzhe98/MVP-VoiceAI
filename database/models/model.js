@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+mongoose.connect('mongodb://localhost/VoiceAI');
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -85,5 +86,48 @@ const MessageSchema = new mongoose.Schema({
 const User = mongoose.model('User', UserSchema);
 const Topic = mongoose.model('Topic', TopicSchema);
 const Message = mongoose.model('Message', MessageSchema);
+
+User.estimatedDocumentCount()
+  .then((response) => {
+    if (response === 0) {
+      console.log('insert user')
+      User.insertMany([
+        { username: "Alice", password: "123", topics: [] },
+        { username: "Bob", password: "456", topics: [] },
+        { username: "Charlie", password: "789", topics: [] }
+      ]);
+    }
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+
+Topic.estimatedDocumentCount()
+  .then((response) => {
+    if (response === 0) {
+      console.log('insert topic')
+      Topic.insertMany([
+        { name: "Topic 1", owner: ObjectId("615d270b7c201f2a281d7a0c"), messages: [] },
+        { name: "Topic 2", owner: ObjectId("615d270b7c201f2a281d7a0c"), messages: [] }
+    ]);
+    }
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+
+Message.estimatedDocumentCount()
+  .then((response) => {
+    if (response === 0) {
+      console.log('insert message')
+      Message.insertMany([
+        { content: "Message 1", response: "Response 1", creator: ObjectId("615d270b7c201f2a281d7a0c"), topic: ObjectId("615d27347c201f2a281d7a0e") },
+        { content: "Message 2", response: "Response 2", creator: ObjectId("615d270b7c201f2a281d7a0c"), topic: ObjectId("615d27347c201f2a281d7a0e") }
+        ]);
+    }
+  })
+  .catch((err) => {
+    console.log(err)
+  })
 
 module.exports = { User, Topic, Message };

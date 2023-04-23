@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 mongoose.connect('mongodb://localhost/VoiceAI');
 
 const db = mongoose.connection;
@@ -11,4 +13,9 @@ db.once('open', () => {
   console.log('mongoose connected successfully');
 });
 
-module.exports = db;
+const store = new MongoStore({
+  mongooseConnection: mongoose.connection,
+  collection: 'sessions'
+});
+
+module.exports = store;

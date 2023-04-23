@@ -29,7 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
 require("./style.css");
 const Register_1 = __importDefault(require("./Register"));
-const login_1 = __importDefault(require("./login"));
+const Login_1 = __importDefault(require("./Login"));
 const Share_1 = __importDefault(require("./Share"));
 const core_1 = require("@material-ui/core");
 const icons_1 = require("@material-ui/icons");
@@ -72,7 +72,14 @@ const Mainpage = ({ onPageChange }) => {
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     fontFamily: 'Futura' } }, "VoiceAI"),
-            showContent ? (react_1.default.createElement(core_1.Typography, { variant: "body1", align: "center", style: { color: 'white', fontFamily: 'Helvetica' } }, "The all-in-one app that will change the way you interact with your device. Our app is designed to revolutionize the way we communicate with technology by using the power of voice recognition and artificial intelligence. With voiceAI, you can use your voice to generate AI responses that can be transformed into spoken words. Plus, our app can recognize emotions in sound, which means you can experience a more personalized and intuitive conversation with your device. What's more, voiceAI also has the ability to generate pictures, making it a comprehensive application of AI.")) : (react_1.default.createElement(core_1.Grid, { container: true, justifyContent: "center" },
+            showContent ? (react_1.default.createElement(core_1.Typography, { variant: "body1", align: "center", style: { color: 'white', fontFamily: 'Helvetica' } },
+                "The all-in-one app that will change the way you interact with your device. Our app is designed to revolutionize the way we communicate with technology by using the power of voice recognition and artificial intelligence. With voiceAI, you can use your voice to generate AI responses that can be transformed into spoken words. Plus, our app can recognize emotions in sound, which means you can experience a more personalized and intuitive conversation with your device. What's more, voiceAI also has the ability to generate pictures, making it a comprehensive application of AI.",
+                react_1.default.createElement(core_1.Button, { color: "primary", onClick: () => setShowContent(false) },
+                    react_1.default.createElement("span", { style: {
+                            backgroundImage: 'linear-gradient(45deg, white 30%, #00c5ff 60%, #ff4b1f 90%)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                        } }, "Hide")))) : (react_1.default.createElement(core_1.Grid, { container: true, justifyContent: "center" },
                 react_1.default.createElement(core_1.Typography, { variant: "body1", align: "center", style: { color: 'white', fontFamily: 'Helvetica' } },
                     "The all-in-one app that will change the way you interact with your device.",
                     react_1.default.createElement(core_1.Button, { color: "primary", onClick: () => setShowContent(true) },
@@ -82,31 +89,15 @@ const Mainpage = ({ onPageChange }) => {
                                 WebkitTextFillColor: 'transparent',
                             } }, "Learn More"))))),
             react_1.default.createElement(core_1.Box, { sx: { display: 'flex', justifyContent: 'center' } },
-                react_1.default.createElement(core_1.Button, { variant: "contained", onClick: onPageChange, style: {
-                        color: '#fff',
-                        background: 'linear-gradient(45deg, #0077be 30%, #7b3d91 60%, #0051a8 90%)',
-                        boxShadow: '0 3px 5px 2px rgba(0, 81, 168, .3)',
-                    } }, "Try it"))),
+                react_1.default.createElement(core_1.Button, { variant: "contained", onClick: onPageChange, className: 'button' }, "Try it"))),
         react_1.default.createElement(core_1.Box, { sx: { position: 'fixed', bottom: 0, left: 0, right: 0, bgcolor: '#2b86c5', py: 4, width: '50%' } },
             react_1.default.createElement(core_1.Box, { sx: { display: 'flex', justifyContent: 'center', mb: 4, marginBottom: '3%' } },
-                react_1.default.createElement(core_1.Button, { variant: "contained", startIcon: react_1.default.createElement(icons_1.Person, null), onClick: () => setShowLogin(true), style: {
-                        color: '#fff',
-                        background: 'linear-gradient(45deg, #0077be 30%, #7b3d91 60%, #0051a8 90%)',
-                        boxShadow: '0 3px 5px 2px rgba(0, 81, 168, .3)',
-                    } }, "Login"),
+                react_1.default.createElement(core_1.Button, { variant: "contained", startIcon: react_1.default.createElement(icons_1.Person, null), onClick: () => setShowLogin(true), className: 'button' }, "Login"),
                 react_1.default.createElement(core_1.Box, { sx: { mx: 2 } }),
-                react_1.default.createElement(core_1.Button, { variant: "contained", startIcon: react_1.default.createElement(icons_1.Lock, null), onClick: () => setShowRegister(true), style: {
-                        color: '#fff',
-                        background: 'linear-gradient(45deg, #0077be 30%, #7b3d91 60%, #0051a8 90%)',
-                        boxShadow: '0 3px 5px 2px rgba(0, 81, 168, .3)',
-                    } }, "Register"),
+                react_1.default.createElement(core_1.Button, { variant: "contained", startIcon: react_1.default.createElement(icons_1.Lock, null), onClick: () => setShowRegister(true), className: 'button' }, "Register"),
                 react_1.default.createElement(core_1.Box, { sx: { mx: 2 } }),
-                react_1.default.createElement(core_1.Button, { variant: "contained", endIcon: react_1.default.createElement(icons_1.Reply, null), onClick: () => setShowShare(true), style: {
-                        color: '#fff',
-                        background: 'linear-gradient(45deg, #0077be 30%, #7b3d91 60%, #0051a8 90%)',
-                        boxShadow: '0 3px 5px 2px rgba(0, 81, 168, .3)',
-                    } }, "Share"))),
-        showLogin && react_1.default.createElement(login_1.default, { onClose: () => setShowLogin(false), setUser: setUser }),
+                react_1.default.createElement(core_1.Button, { variant: "contained", endIcon: react_1.default.createElement(icons_1.Reply, null), onClick: () => setShowShare(true), className: 'button' }, "Share"))),
+        showLogin && react_1.default.createElement(Login_1.default, { onClose: () => setShowLogin(false) }),
         showRegister && react_1.default.createElement(Register_1.default, { onClose: () => setShowRegister(false), setShowLogin: setShowLogin }),
         showShare && react_1.default.createElement(Share_1.default, { onClose: () => setShowShare(false) })));
 };

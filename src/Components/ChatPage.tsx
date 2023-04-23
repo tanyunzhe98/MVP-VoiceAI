@@ -24,7 +24,6 @@ interface Theme {
 function ChatPage({onPageChange}:ChatPageProps) {
   const [themes, setThemes] = useState<Theme[]>([]);
   const [selectedTheme, setSelectedTheme] = useState<string>('');
-  const [isSpeaking, setIsSpeaking] = React.useState(false);
 
   function addTheme(themeName: string, message?:string, res?:string) {
     if (themes.some(theme => theme.name === themeName)) {

@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Button,
   Dialog,
-  DialogTitle,
   DialogContent,
   DialogActions,
   TextField,
@@ -11,15 +10,16 @@ import {
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import axios from 'axios';
+import UserContext from "../UserContext";
 
 interface LoginProps {
   onClose: () => void;
-  setUser: React.Dispatch<React.SetStateAction<string>>
 }
 
-const Login = ({ onClose, setUser }: LoginProps): JSX.Element => {
+const Login = ({ onClose }: LoginProps): JSX.Element => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { setUser } = useContext(UserContext);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -36,6 +36,7 @@ const Login = ({ onClose, setUser }: LoginProps): JSX.Element => {
   .then(response => {
       setUser(username);
       console.log(response); // 返回用户的所有主题和主题内的所有消息
+      onClose();
   })
   .catch(error => {
       console.log(error);

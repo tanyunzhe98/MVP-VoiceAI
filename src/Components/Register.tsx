@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useState, useContext } from 'react';
 import {
   Button,
   Dialog,
@@ -10,27 +10,31 @@ import {
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import axios from 'axios';
+import UserContext from "../UserContext";
 
 interface RegisterProps {
   onClose: () => void;
-  setShowLogin: Dispatch<SetStateAction<boolean>>
+  setShowLogin: Dispatch<SetStateAction<boolean>>;
 }
 
 const Register = ({ onClose, setShowLogin }: RegisterProps): JSX.Element => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { setUser } = useContext(UserContext);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Handle register logic here
-    axios.post('/rsvps',{
-      username:username,
-      password:password
-    })
-    .then(()=>{
-    }).catch((err)=> {
-      console.log(err);
-    });
+    axios.post('/users/register', {
+      username: username,
+      password: password
+    }).then(response => {
+      // 注册成功，跳转到登录页面
+      setUser(username);
+      console.log(response);
+      onClose();
+    }).catch(error => {
+      console.log(error);
+  });
   };
 
   return (

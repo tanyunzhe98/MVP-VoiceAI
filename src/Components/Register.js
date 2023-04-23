@@ -30,19 +30,23 @@ const react_1 = __importStar(require("react"));
 const core_1 = require("@material-ui/core");
 const icons_1 = require("@material-ui/icons");
 const axios_1 = __importDefault(require("axios"));
+const UserContext_1 = __importDefault(require("../UserContext"));
 const Register = ({ onClose, setShowLogin }) => {
     const [username, setUsername] = (0, react_1.useState)('');
     const [password, setPassword] = (0, react_1.useState)('');
+    const { setUser } = (0, react_1.useContext)(UserContext_1.default);
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Handle register logic here
-        axios_1.default.post('/rsvps', {
+        axios_1.default.post('/users/register', {
             username: username,
             password: password
-        })
-            .then(() => {
-        }).catch((err) => {
-            console.log(err);
+        }).then(response => {
+            // 注册成功，跳转到登录页面
+            setUser(username);
+            console.log(response);
+            onClose();
+        }).catch(error => {
+            console.log(error);
         });
     };
     return (react_1.default.createElement(core_1.Dialog, { open: true, onClose: onClose, maxWidth: "xs", style: { height: 999, top: '-20vh' } },

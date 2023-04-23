@@ -23,6 +23,8 @@
     "bcrypt": "^5.1.0",
     "bootstrap": "^4.6.0",
     "bootstrap-icons": "^1.10.4",
+    "connect-mongo": "^5.0.0",
+    "express-session": "^1.17.3",
     "file-loader": "^6.2.0",
     "mongoose": "^7.0.4",
     "openai": "^3.2.1",
