@@ -31,10 +31,11 @@ const core_1 = require("@material-ui/core");
 const icons_1 = require("@material-ui/icons");
 const axios_1 = __importDefault(require("axios"));
 const UserContext_1 = __importDefault(require("../UserContext"));
+require("./style.css");
 const Register = ({ onClose, setShowLogin }) => {
     const [username, setUsername] = (0, react_1.useState)('');
     const [password, setPassword] = (0, react_1.useState)('');
-    const { setUser } = (0, react_1.useContext)(UserContext_1.default);
+    const { setUser, setUserid } = (0, react_1.useContext)(UserContext_1.default);
     const handleSubmit = (event) => {
         event.preventDefault();
         axios_1.default.post('/users/register', {
@@ -43,6 +44,7 @@ const Register = ({ onClose, setShowLogin }) => {
         }).then(response => {
             // 注册成功，跳转到登录页面
             setUser(username);
+            setUserid(response.data._id);
             console.log(response);
             onClose();
         }).catch(error => {
@@ -58,7 +60,7 @@ const Register = ({ onClose, setShowLogin }) => {
                 react_1.default.createElement(core_1.TextField, { label: "Username", value: username, onChange: (event) => setUsername(event.target.value), required: true, autoFocus: true, margin: "dense", fullWidth: true }),
                 react_1.default.createElement(core_1.TextField, { label: "Password", type: "password", value: password, onChange: (event) => setPassword(event.target.value), required: true, margin: "dense", fullWidth: true }),
                 react_1.default.createElement(core_1.DialogActions, null,
-                    react_1.default.createElement(core_1.Button, { type: "submit", variant: "contained", style: { width: '100%' } }, "Register"))),
+                    react_1.default.createElement(core_1.Button, { type: "submit", variant: "contained", style: { width: '100%' }, className: 'button' }, "Register"))),
             react_1.default.createElement(core_1.Typography, { align: "center" },
                 "Already a user?",
                 ' ',

@@ -76,13 +76,7 @@ function ThemeListItem({ themeName, onSelect, onEdit, onDelete, selectedTheme }:
   }}
   style={{ width: '95%', height: '25px', border: 'none', outline: 'none', marginTop: '-23px' }}
 />
-
-
-
-
 </Box>
-
-
 </>
       ) : (
         <>

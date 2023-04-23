@@ -31,10 +31,11 @@ const core_1 = require("@material-ui/core");
 const icons_1 = require("@material-ui/icons");
 const axios_1 = __importDefault(require("axios"));
 const UserContext_1 = __importDefault(require("../UserContext"));
+require("./style.css");
 const Login = ({ onClose }) => {
     const [username, setUsername] = (0, react_1.useState)('');
     const [password, setPassword] = (0, react_1.useState)('');
-    const { setUser } = (0, react_1.useContext)(UserContext_1.default);
+    const { user, setUser, userid, setUserid } = (0, react_1.useContext)(UserContext_1.default);
     const handleSubmit = (event) => {
         event.preventDefault();
         // Handle register logic here
@@ -49,7 +50,8 @@ const Login = ({ onClose }) => {
         })
             .then(response => {
             setUser(username);
-            console.log(response); // 返回用户的所有主题和主题内的所有消息
+            setUserid(response.data._id);
+            console.log('successfully login!'); // 返回用户的所有主题和主题内的所有消息
             onClose();
         })
             .catch(error => {
@@ -65,6 +67,6 @@ const Login = ({ onClose }) => {
                 react_1.default.createElement(core_1.TextField, { label: "Username", value: username, onChange: (event) => setUsername(event.target.value), required: true, autoFocus: true, margin: "dense", fullWidth: true }),
                 react_1.default.createElement(core_1.TextField, { label: "Password", type: "password", value: password, onChange: (event) => setPassword(event.target.value), required: true, margin: "dense", fullWidth: true }),
                 react_1.default.createElement(core_1.DialogActions, null,
-                    react_1.default.createElement(core_1.Button, { type: "submit", variant: "contained", style: { width: '100%' } }, "Login"))))));
+                    react_1.default.createElement(core_1.Button, { type: "submit", variant: "contained", style: { width: '100%' }, className: 'button' }, "Login"))))));
 };
 exports.default = Login;

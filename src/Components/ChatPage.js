@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -33,10 +42,32 @@ const ThemeList_1 = __importDefault(require("./ThemeList"));
 const NewThemeButton_1 = __importDefault(require("./NewThemeButton"));
 const ChevronLeft_1 = __importDefault(require("@material-ui/icons/ChevronLeft"));
 const core_1 = require("@material-ui/core");
+const UserContext_1 = __importDefault(require("../UserContext"));
+const axios_1 = __importDefault(require("axios"));
 function ChatPage({ onPageChange }) {
     var _a, _b;
     const [themes, setThemes] = (0, react_1.useState)([]);
     const [selectedTheme, setSelectedTheme] = (0, react_1.useState)('');
+    const { user, setUser, userid, setUserid } = (0, react_1.useContext)(UserContext_1.default);
+    (0, react_1.useEffect)(() => {
+        const fetchTopics = () => __awaiter(this, void 0, void 0, function* () {
+            try {
+                // 发送 Axios 请求，获取当前用户的所有话题
+                const response = yield axios_1.default.get(`/user/theme/${userid}`);
+                // TODO: 处理请求返回的数据
+                console.log('successfully get the data', response.data);
+                setThemes(response.data);
+            }
+            catch (err) {
+                // TODO: 处理请求错误
+                console.error(err);
+            }
+        });
+        // 仅在 user 属性变化时发送请求
+        if (user) {
+            fetchTopics();
+        }
+    }, [userid]);
     function addTheme(themeName, message, res) {
         if (themes.some(theme => theme.name === themeName)) {
             alert(`Cannot add ${themeName}, name already exists`);
@@ -44,22 +75,41 @@ function ChatPage({ onPageChange }) {
         }
         var newTheme;
         if (!message || !res) {
-            newTheme = {
+            axios_1.default.post('/user/theme', {
                 name: themeName,
-                messages: []
-            };
+                owner: userid
+            }).then(response => {
+                console.log(response);
+                newTheme = {
+                    name: themeName,
+                    messages: [],
+                    _id: response.data._id,
+                };
+                setThemes([...themes, newTheme]);
+            }).catch(error => {
+                console.log(error);
+            });
         }
         else {
-            newTheme = {
+            axios_1.default.post('/user/theme', {
                 name: themeName,
-                messages: [{ role: 'user', content: message, response: res }]
-            };
+                owner: userid
+            }).then(response => {
+                console.log(response);
+                newTheme = {
+                    name: themeName,
+                    messages: [{ role: 'user', content: message, response: res }],
+                    _id: response.data._id,
+                };
+                setThemes([...themes, newTheme]);
+            }).catch(error => {
+                console.log(error);
+            });
         }
         // const newTheme = {
         //   name: themeName,
         //   messages: [{role: 'user', content: message}]??[]
         // };
-        setThemes([...themes, newTheme]);
         setSelectedTheme(themeName);
     }
     function addMessage(role, content, response) {
@@ -83,6 +133,13 @@ function ChatPage({ onPageChange }) {
             alert(`Cannot change theme name to ${newThemeName}, name already exists`);
             return;
         }
+        axios_1.default.put(`/user/theme/${oldThemeName}`, {
+            name: newThemeName
+        }).then(response => {
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
+        });
         const updatedThemes = themes.map(theme => {
             if (theme.name === oldThemeName) {
                 return Object.assign(Object.assign({}, theme), { name: newThemeName });
@@ -96,18 +153,26 @@ function ChatPage({ onPageChange }) {
             setSelectedTheme(newThemeName);
         }
     }
-    function deleteTheme(themeName) {
+    function deleteTheme(themeName, themeid) {
         if (selectedTheme === themeName) {
             alert(`Cannot delete theme ${themeName}, theme using`);
             return;
         }
+        axios_1.default.delete(`/user/theme/${themeid}`)
+            .then(response => {
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
+        });
         const updatedThemes = themes.filter(theme => theme.name !== themeName);
         setThemes(updatedThemes);
     }
     return (react_1.default.createElement("div", { className: 'chatpage' },
         react_1.default.createElement("div", { className: "menu" },
             react_1.default.createElement(NewThemeButton_1.default, { onAddTheme: addTheme }),
-            react_1.default.createElement(ThemeList_1.default, { themes: themes.map(theme => theme.name), onThemeSelect: setSelectedTheme, onThemeEdit: changeThemeName, onThemeDelete: deleteTheme, selectedTheme: selectedTheme })),
+            react_1.default.createElement(ThemeList_1.default, { themes: themes, onThemeSelect: setSelectedTheme, onThemeEdit: changeThemeName, onThemeDelete: deleteTheme, onPageChange: onPageChange, selectedTheme: selectedTheme, onClearConversation: function () {
+                    throw new Error('Function not implemented.');
+                } })),
         react_1.default.createElement("div", { className: "mainchat" },
             react_1.default.createElement(core_1.IconButton, { style: { color: '#187ce0' }, onClick: () => setSelectedTheme('') },
                 react_1.default.createElement(ChevronLeft_1.default, null)),

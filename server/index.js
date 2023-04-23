@@ -23,22 +23,32 @@ app.post("/text", (req, res) => {
 
 //create new user
 app.post("/users/register", (req, res) => {
-  localcontroller.register(req,res)
+  localcontroller.register(req,res);
 });
 
 //login check user password correct
 app.get("/users/login", (req, res) => {
-  localcontroller.login(req,res)
+  localcontroller.login(req,res);
 });
 
 //return user's chat history
-app.get("/user/theme", (req, res) => {
-
+app.get("/user/theme/:user_id", (req, res) => {
+  localcontroller.gettopics(req,res);
 })
 
 //add theme
 app.post("/user/theme", (req, res) => {
+  localcontroller.addtopic(req,res);
+});
 
+//update theme
+app.put("/user/theme/:topic_id", (req, res) => {
+  localcontroller.updatetopic(req,res);
+});
+
+//delete theme
+app.delete("/user/theme/:topic_id", (req, res) => {
+  localcontroller.deletetopic(req,res);
 });
 
 //add message

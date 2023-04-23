@@ -57,20 +57,22 @@ const Mainpage = ({onPageChange} : MainpageProps): JSX.Element => {
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <img src={logo} alt="VoiceAI Logo" height="200" style={{ filter: "grayscale(100%) brightness(1)" }} />
         </Box>
-        <Typography variant="h2" align="center" style={{   background: 'linear-gradient(45deg, #b3d9ff 30%, #e8d2ff 60%, #b2c7ff 90%)',
+        <Typography variant="h2" align="center" style={{ background: 'linear-gradient(45deg, #b3d9ff 30%, #e8d2ff 60%, #b2c7ff 90%)',
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   fontFamily: 'Futura' }}>
           VoiceAI
         </Typography>
         {showContent ? (
-  <Typography variant="body1" align="center" style={{ color: 'white', fontFamily: 'Helvetica' }}>
+  <Typography variant="body1" align="center" style={{ background: 'linear-gradient(45deg, #b3d9ff 30%, #e8d2ff 60%, #b2c7ff 90%)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent', fontFamily: 'Helvetica' }}>
     The all-in-one app that will change the way you interact with your device. Our app is designed to revolutionize the way we communicate with technology by using the power of voice recognition and artificial intelligence. With voiceAI, you can use your voice to generate AI responses that can be transformed into spoken words. Plus, our app can recognize emotions in sound, which means you can experience a more personalized and intuitive conversation with your device. What's more, voiceAI also has the ability to generate pictures, making it a comprehensive application of AI.
     <Button color="primary" onClick={() => setShowContent(false)}>
   <span
     style={{
       backgroundImage:
-        'linear-gradient(45deg, white 30%, #00c5ff 60%, #ff4b1f 90%)',
+        'linear-gradient(45deg, #b2c7ff 30%, #00c5ff 60%, #ff4b1f 90%)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
     }}
@@ -81,13 +83,15 @@ const Mainpage = ({onPageChange} : MainpageProps): JSX.Element => {
   </Typography>
       ) : (
         <Grid container justifyContent="center">
-  <Typography variant="body1" align="center" style={{ color: 'white', fontFamily: 'Helvetica' }}>
+  <Typography variant="body1" align="center" style={{ background: 'linear-gradient(45deg, #b3d9ff 30%, #e8d2ff 60%, #b2c7ff 90%)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent', fontFamily: 'Helvetica' }}>
     The all-in-one app that will change the way you interact with your device.
     <Button color="primary" onClick={() => setShowContent(true)}>
   <span
     style={{
       backgroundImage:
-        'linear-gradient(45deg, white 30%, #00c5ff 60%, #ff4b1f 90%)',
+        'linear-gradient(45deg, #b2c7ff 30%, #00c5ff 60%, #ff4b1f 90%)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
     }}

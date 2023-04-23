@@ -4,5 +4,7 @@ const react_1 = require("react");
 const UserContext = (0, react_1.createContext)({
     user: "",
     setUser: () => { },
+    userid: "",
+    setUserid: () => { },
 });
 exports.default = UserContext;

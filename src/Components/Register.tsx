@@ -11,6 +11,7 @@ import {
 import { Close } from '@material-ui/icons';
 import axios from 'axios';
 import UserContext from "../UserContext";
+import './style.css';
 
 interface RegisterProps {
   onClose: () => void;
@@ -20,7 +21,7 @@ interface RegisterProps {
 const Register = ({ onClose, setShowLogin }: RegisterProps): JSX.Element => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { setUser } = useContext(UserContext);
+  const { setUser, setUserid } = useContext(UserContext);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,6 +31,7 @@ const Register = ({ onClose, setShowLogin }: RegisterProps): JSX.Element => {
     }).then(response => {
       // 注册成功，跳转到登录页面
       setUser(username);
+      setUserid(response.data._id)
       console.log(response);
       onClose();
     }).catch(error => {
@@ -65,7 +67,7 @@ const Register = ({ onClose, setShowLogin }: RegisterProps): JSX.Element => {
             fullWidth
           />
           <DialogActions>
-            <Button type="submit" variant="contained" style={{ width: '100%' }}>
+            <Button type="submit" variant="contained" style={{ width: '100%' }} className='button'>
               Register
             </Button>
           </DialogActions>

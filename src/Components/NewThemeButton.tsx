@@ -72,9 +72,6 @@ const classes = useStyles();
   className="custom-text-field"
   style={{ width: '100%', borderColor: 'white' }}
 />
-
-
-
     </div>
   ) : (
     <div style={{ flex: 1 }}>

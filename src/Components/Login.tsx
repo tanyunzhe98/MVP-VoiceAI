@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Button,
   Dialog,
@@ -11,6 +11,7 @@ import {
 import { Close } from '@material-ui/icons';
 import axios from 'axios';
 import UserContext from "../UserContext";
+import './style.css';
 
 interface LoginProps {
   onClose: () => void;
@@ -19,7 +20,7 @@ interface LoginProps {
 const Login = ({ onClose }: LoginProps): JSX.Element => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { setUser } = useContext(UserContext);
+  const { user, setUser, userid, setUserid } = useContext(UserContext);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -35,7 +36,8 @@ const Login = ({ onClose }: LoginProps): JSX.Element => {
   })
   .then(response => {
       setUser(username);
-      console.log(response); // 返回用户的所有主题和主题内的所有消息
+      setUserid(response.data._id)
+      console.log('successfully login!'); // 返回用户的所有主题和主题内的所有消息
       onClose();
   })
   .catch(error => {
@@ -71,7 +73,7 @@ const Login = ({ onClose }: LoginProps): JSX.Element => {
             fullWidth
           />
           <DialogActions>
-            <Button type="submit" variant="contained" style={{ width: '100%' }}>
+            <Button type="submit" variant="contained" style={{ width: '100%' }} className='button'>
               Login
             </Button>
           </DialogActions>
