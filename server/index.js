@@ -31,7 +31,7 @@ app.get("/users/login", (req, res) => {
   localcontroller.login(req,res);
 });
 
-//return user's chat history
+//return user's chat topics
 app.get("/user/theme/:user_id", (req, res) => {
   localcontroller.gettopics(req,res);
 })
@@ -53,7 +53,13 @@ app.delete("/user/theme/:topic_id", (req, res) => {
 
 //add message
 app.post("/user/theme/message", (req, res) => {
+  localcontroller.addmessage(req,res);
+});
 
+//get message
+app.get("/user/theme/message/:creatorId/:topicId", (req, res) => {
+  console.log('running');
+  localcontroller.getmessage(req,res);
 });
 
 app.listen(PORT, () => {console.log(`Server is listening at http://localhost:${PORT}`);});

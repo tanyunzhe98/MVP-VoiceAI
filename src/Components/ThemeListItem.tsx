@@ -4,6 +4,7 @@ import { Edit, Delete, Check, Clear, ChatBubble } from '@material-ui/icons';
 
 interface ThemeListItemProps {
   themeName: string;
+  themeid: string;
   onSelect: () => void;
   onEdit: (oldThemeName: string, newThemeName: string) => void;
   onDelete: () => void;
@@ -17,7 +18,7 @@ const inputStyle = {
   borderBottom: 'none'
 };
 
-function ThemeListItem({ themeName, onSelect, onEdit, onDelete, selectedTheme }: ThemeListItemProps) {
+function ThemeListItem({ themeName, onSelect, onEdit, onDelete, selectedTheme, themeid }: ThemeListItemProps) {
   const [isEditing, setIsEditing] = React.useState(false);
   const [newThemeName, setNewThemeName] = React.useState(themeName);
 

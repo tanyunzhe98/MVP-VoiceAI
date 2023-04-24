@@ -27,6 +27,8 @@ interface Theme {
 function ChatPage({onPageChange}:ChatPageProps) {
   const [themes, setThemes] = useState<Theme[]>([]);
   const [selectedTheme, setSelectedTheme] = useState<string>('');
+  const [selectedThemeid, setSelectedThemeid] = useState<string>('');
+  const [messages, setMessages] = useState<Message[]>([]);
   const { user, setUser, userid, setUserid } = useContext(UserContext);
 
   useEffect(() => {
@@ -52,7 +54,7 @@ function ChatPage({onPageChange}:ChatPageProps) {
   function addTheme(themeName: string, message?:string, res?:string) {
     if (themes.some(theme => theme.name === themeName)) {
       alert(`Cannot add ${themeName}, name already exists`);
-      return;
+      return '';
     }
     var newTheme;
     if (!message || !res) {
@@ -67,6 +69,8 @@ function ChatPage({onPageChange}:ChatPageProps) {
           _id:response.data._id,
         };
         setThemes([...themes, newTheme]);
+        setSelectedTheme(themeName);
+        return response.data._id;
     }).catch(error => {
       console.log(error);
   });
@@ -82,15 +86,17 @@ function ChatPage({onPageChange}:ChatPageProps) {
           _id:response.data._id,
         };
         setThemes([...themes, newTheme]);
+        setSelectedTheme(themeName);
+        return response.data._id;
     }).catch(error => {
       console.log(error);
   });
     }
+    return '';
     // const newTheme = {
     //   name: themeName,
     //   messages: [{role: 'user', content: message}]??[]
     // };
-    setSelectedTheme(themeName);
   }
 
   function addMessage(role: string, content: string, response: string) {
@@ -107,6 +113,14 @@ function ChatPage({onPageChange}:ChatPageProps) {
       });
       setThemes(updatedThemes);
     }
+    axios.post('/user/theme/message', {
+      topic: selectedThemeid,
+      content: content,
+      response: response,
+      creator: userid,
+    }).then(res => {console.log(res.data)}).catch(error => {
+    console.log(error);
+  });
   }
 
   function changeThemeName(oldThemeName: string, newThemeName: string) {
@@ -161,9 +175,11 @@ function ChatPage({onPageChange}:ChatPageProps) {
       <ThemeList
           themes={themes}
           onThemeSelect={setSelectedTheme}
+          onThemeidSelect={setSelectedThemeid}
           onThemeEdit={changeThemeName}
           onThemeDelete={deleteTheme}
           onPageChange={onPageChange}
+          setMessages={setMessages}
           selectedTheme={selectedTheme}
           onClearConversation={function (): void {
             throw new Error('Function not implemented.');
@@ -174,13 +190,14 @@ function ChatPage({onPageChange}:ChatPageProps) {
   <ChevronLeftIcon />
 </IconButton>
       <MessageList
-        messages={themes.find(theme => theme.name === selectedTheme)?.messages ?? []}
+        messages={messages}
         />
         <ChatBox
         onAddMessage={addMessage}
         selectedTheme={selectedTheme}
         setSelectedTheme={setSelectedTheme}
         addTheme={addTheme}
+        setSelectedThemeid={setSelectedThemeid}
         themes={themes} />
         </div>
         </div>

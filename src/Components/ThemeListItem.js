@@ -12,7 +12,7 @@ const inputStyle = {
     '&::before': { borderBottomColor: 'white' },
     borderBottom: 'none'
 };
-function ThemeListItem({ themeName, onSelect, onEdit, onDelete, selectedTheme }) {
+function ThemeListItem({ themeName, onSelect, onEdit, onDelete, selectedTheme, themeid }) {
     const [isEditing, setIsEditing] = react_1.default.useState(false);
     const [newThemeName, setNewThemeName] = react_1.default.useState(themeName);
     function handleEditClick() {

@@ -39,7 +39,7 @@ const react_1 = __importStar(require("react"));
 const core_1 = require("@material-ui/core");
 const icons_1 = require("@material-ui/icons");
 const axios_1 = __importDefault(require("axios"));
-function ChatBox({ onAddMessage, selectedTheme, setSelectedTheme, themes, addTheme }) {
+function ChatBox({ onAddMessage, selectedTheme, setSelectedTheme, themes, addTheme, setSelectedThemeid }) {
     const [prompts, setPrompts] = (0, react_1.useState)([{ role: 'system', content: 'You are a helpful assistant. Answer as concisely as possible with a little humor expression.' }]);
     //const [theme, setTheme] = useState(selectedTheme);
     const [isRecording, setIsRecording] = (0, react_1.useState)(false);
@@ -67,7 +67,8 @@ function ChatBox({ onAddMessage, selectedTheme, setSelectedTheme, themes, addThe
                 input_text: 'generate this sentence a 5-word or less title:' + inputText,
             });
             setSelectedTheme(text.data);
-            addTheme(text.data, prompt, res.data);
+            var id = addTheme(text.data, prompt, res.data);
+            setSelectedThemeid(id);
         }
         onAddMessage('user', prompt, res.data);
         setPrompts(chatHistory);

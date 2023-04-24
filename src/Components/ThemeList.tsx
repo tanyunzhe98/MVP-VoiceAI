@@ -1,17 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
 import ThemeListItem from './ThemeListItem';
 import { Button, IconButton, Menu, MenuItem } from '@material-ui/core';
 import { MoreVert as MoreVertIcon, Home as HomeIcon, AccountCircle as AccountCircleIcon, ExitToApp as ExitToAppIcon, ClearAll as ClearAllIcon } from '@material-ui/icons';
 import UserContext from "../UserContext";
+import axios from 'axios';
 
 interface Props {
   themes: Theme[];
   onThemeSelect: (themeName: string) => void;
+  onThemeidSelect: (themeId: string) => void;
   onThemeEdit: (oldThemeName: string, newThemeName: string) => void;
   onThemeDelete: (themeName: string, themeId: string) => void;
   selectedTheme: string;
   onClearConversation: () => void;
   onPageChange: () => void;
+  setMessages: Dispatch<SetStateAction<Message[]>>
 }
 
 interface Theme {
@@ -26,7 +29,7 @@ interface Message {
   response: string;
 }
 
-const ThemeList =({ themes, onThemeSelect, onThemeEdit, onThemeDelete, selectedTheme, onClearConversation, onPageChange }: Props): JSX.Element =>  {
+const ThemeList =({ themes, onThemeSelect, onThemeidSelect, onThemeEdit, onThemeDelete, selectedTheme, onClearConversation, onPageChange, setMessages }: Props): JSX.Element =>  {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { user, setUser, userid, setUserid } = useContext(UserContext);
 
@@ -44,13 +47,35 @@ const ThemeList =({ themes, onThemeSelect, onThemeEdit, onThemeDelete, selectedT
     }
   }
 
+  function onSelect(name: string, id: string) {
+    onThemeSelect(name);
+    onThemeidSelect(id);
+    axios.get(`/user/theme/message/${userid}/${id}`)
+    .then(response => {
+      console.log(response.data); // 返回的消息数据
+      var temp = response.data.map((data: { content: any; response: any; })=>{
+        var message = {
+          role: 'user',
+          content: data.content,
+          response: data.response
+        }
+        return message;
+      })
+      setMessages(temp);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
   return (
     <div>
       {themes.map((theme) => (
         <ThemeListItem
           key={theme.name}
           themeName={theme.name}
-          onSelect={() => onThemeSelect(theme.name)}
+          themeid={theme._id}
+          onSelect={()=>{onSelect(theme.name, theme._id)}}
           onEdit={handleThemeEdit}
           onDelete={() => onThemeDelete(theme.name, theme._id)}
           selectedTheme={selectedTheme}

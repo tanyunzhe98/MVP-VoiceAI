@@ -74,7 +74,7 @@ const addtopic = async (req, res) => {
 
 const gettopics = async (req, res) => {
   const { user_id: id } = req.params;
-  console.log('id',id);
+  //console.log('id',id);
     try {
       // 查询所有话题
       const topics = await model.Topic.find({ owner: id });
@@ -124,4 +124,73 @@ const deletetopic = async (req, res) => {
   }
 };
 
-module.exports = {login, register, gettopics, addtopic, updatetopic, deletetopic};
+const addmessage = async (req, res) => {
+  // console.log('body:',req.body)
+  const { content, response, creator: creatorId, topic: topicId } = req.body;
+  // console.log('content:',content)
+  // console.log('response:',response)
+  // console.log('creator:',creatorId)
+  // console.log('topic:',topicId)
+
+  try {
+    // Check if creator and topic exist
+    const creator = await model.User.findById(creatorId);
+    const topic = await model.Topic.findById(topicId);
+
+    if (!creator) {
+      return res.status(400).send("Creator not found");
+    }
+
+    if (!topic) {
+      return res.status(400).send("Topic not found");
+    }
+
+    // Create new message
+    const message = new model.Message({
+      content,
+      response,
+      creator: creator,
+      topic: topic,
+    });
+
+    // Add message to topic and creator
+    topic.messages.push(message);
+    creator.topics.push(topic);
+
+    await Promise.all([message.save(), topic.save(), creator.save()]);
+
+    res.status(201).send(message);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send( "Internal server error" );
+  }
+};
+
+const getmessage = async (req, res) => {
+  const { creatorId, topicId } = req.params;
+  console.log('params:',req.params)
+  console.log('creatorId:',creatorId)
+  console.log('topicId:',topicId)
+  try {
+    const creator = await model.User.findById(creatorId);
+    const topic = await model.Topic.findById(topicId);
+
+    if (!creator || !topic) {
+      return res.status(400).send("Creator or topic not found");
+    }
+
+    const messages = await model.Message.find({
+      creator: creator,
+      topic: topic,
+    });
+
+    res.status(200).send(messages);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal server error");
+  }
+};
+
+
+
+module.exports = {login, register, gettopics, addtopic, updatetopic, deletetopic, addmessage, getmessage};

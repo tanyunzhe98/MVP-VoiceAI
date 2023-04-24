@@ -45,9 +45,10 @@ const core_1 = require("@material-ui/core");
 const UserContext_1 = __importDefault(require("../UserContext"));
 const axios_1 = __importDefault(require("axios"));
 function ChatPage({ onPageChange }) {
-    var _a, _b;
     const [themes, setThemes] = (0, react_1.useState)([]);
     const [selectedTheme, setSelectedTheme] = (0, react_1.useState)('');
+    const [selectedThemeid, setSelectedThemeid] = (0, react_1.useState)('');
+    const [messages, setMessages] = (0, react_1.useState)([]);
     const { user, setUser, userid, setUserid } = (0, react_1.useContext)(UserContext_1.default);
     (0, react_1.useEffect)(() => {
         const fetchTopics = () => __awaiter(this, void 0, void 0, function* () {
@@ -71,7 +72,7 @@ function ChatPage({ onPageChange }) {
     function addTheme(themeName, message, res) {
         if (themes.some(theme => theme.name === themeName)) {
             alert(`Cannot add ${themeName}, name already exists`);
-            return;
+            return '';
         }
         var newTheme;
         if (!message || !res) {
@@ -86,6 +87,8 @@ function ChatPage({ onPageChange }) {
                     _id: response.data._id,
                 };
                 setThemes([...themes, newTheme]);
+                setSelectedTheme(themeName);
+                return response.data._id;
             }).catch(error => {
                 console.log(error);
             });
@@ -102,15 +105,17 @@ function ChatPage({ onPageChange }) {
                     _id: response.data._id,
                 };
                 setThemes([...themes, newTheme]);
+                setSelectedTheme(themeName);
+                return response.data._id;
             }).catch(error => {
                 console.log(error);
             });
         }
+        return '';
         // const newTheme = {
         //   name: themeName,
         //   messages: [{role: 'user', content: message}]??[]
         // };
-        setSelectedTheme(themeName);
     }
     function addMessage(role, content, response) {
         if (selectedTheme) {
@@ -124,6 +129,14 @@ function ChatPage({ onPageChange }) {
             });
             setThemes(updatedThemes);
         }
+        axios_1.default.post('/user/theme/message', {
+            topic: selectedThemeid,
+            content: content,
+            response: response,
+            creator: userid,
+        }).then(res => { console.log(res.data); }).catch(error => {
+            console.log(error);
+        });
     }
     function changeThemeName(oldThemeName, newThemeName) {
         if (newThemeName === oldThemeName) {
@@ -170,13 +183,13 @@ function ChatPage({ onPageChange }) {
     return (react_1.default.createElement("div", { className: 'chatpage' },
         react_1.default.createElement("div", { className: "menu" },
             react_1.default.createElement(NewThemeButton_1.default, { onAddTheme: addTheme }),
-            react_1.default.createElement(ThemeList_1.default, { themes: themes, onThemeSelect: setSelectedTheme, onThemeEdit: changeThemeName, onThemeDelete: deleteTheme, onPageChange: onPageChange, selectedTheme: selectedTheme, onClearConversation: function () {
+            react_1.default.createElement(ThemeList_1.default, { themes: themes, onThemeSelect: setSelectedTheme, onThemeidSelect: setSelectedThemeid, onThemeEdit: changeThemeName, onThemeDelete: deleteTheme, onPageChange: onPageChange, setMessages: setMessages, selectedTheme: selectedTheme, onClearConversation: function () {
                     throw new Error('Function not implemented.');
                 } })),
         react_1.default.createElement("div", { className: "mainchat" },
             react_1.default.createElement(core_1.IconButton, { style: { color: '#187ce0' }, onClick: () => setSelectedTheme('') },
                 react_1.default.createElement(ChevronLeft_1.default, null)),
-            react_1.default.createElement(MessageList_1.default, { messages: (_b = (_a = themes.find(theme => theme.name === selectedTheme)) === null || _a === void 0 ? void 0 : _a.messages) !== null && _b !== void 0 ? _b : [] }),
-            react_1.default.createElement(ChatBox_1.default, { onAddMessage: addMessage, selectedTheme: selectedTheme, setSelectedTheme: setSelectedTheme, addTheme: addTheme, themes: themes }))));
+            react_1.default.createElement(MessageList_1.default, { messages: messages }),
+            react_1.default.createElement(ChatBox_1.default, { onAddMessage: addMessage, selectedTheme: selectedTheme, setSelectedTheme: setSelectedTheme, addTheme: addTheme, setSelectedThemeid: setSelectedThemeid, themes: themes }))));
 }
 exports.default = ChatPage;

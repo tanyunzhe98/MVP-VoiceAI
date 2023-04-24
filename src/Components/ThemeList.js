@@ -31,7 +31,8 @@ const ThemeListItem_1 = __importDefault(require("./ThemeListItem"));
 const core_1 = require("@material-ui/core");
 const icons_1 = require("@material-ui/icons");
 const UserContext_1 = __importDefault(require("../UserContext"));
-const ThemeList = ({ themes, onThemeSelect, onThemeEdit, onThemeDelete, selectedTheme, onClearConversation, onPageChange }) => {
+const axios_1 = __importDefault(require("axios"));
+const ThemeList = ({ themes, onThemeSelect, onThemeidSelect, onThemeEdit, onThemeDelete, selectedTheme, onClearConversation, onPageChange, setMessages }) => {
     const [anchorEl, setAnchorEl] = (0, react_1.useState)(null);
     const { user, setUser, userid, setUserid } = (0, react_1.useContext)(UserContext_1.default);
     function handleMenuOpen(event) {
@@ -45,8 +46,28 @@ const ThemeList = ({ themes, onThemeSelect, onThemeEdit, onThemeDelete, selected
             onThemeEdit(oldThemeName, newThemeName);
         }
     }
+    function onSelect(name, id) {
+        onThemeSelect(name);
+        onThemeidSelect(id);
+        axios_1.default.get(`/user/theme/message/${userid}/${id}`)
+            .then(response => {
+            console.log(response.data); // 返回的消息数据
+            var temp = response.data.map((data) => {
+                var message = {
+                    role: 'user',
+                    content: data.content,
+                    response: data.response
+                };
+                return message;
+            });
+            setMessages(temp);
+        })
+            .catch(error => {
+            console.log(error);
+        });
+    }
     return (react_1.default.createElement("div", null,
-        themes.map((theme) => (react_1.default.createElement(ThemeListItem_1.default, { key: theme.name, themeName: theme.name, onSelect: () => onThemeSelect(theme.name), onEdit: handleThemeEdit, onDelete: () => onThemeDelete(theme.name, theme._id), selectedTheme: selectedTheme }))),
+        themes.map((theme) => (react_1.default.createElement(ThemeListItem_1.default, { key: theme.name, themeName: theme.name, themeid: theme._id, onSelect: () => { onSelect(theme.name, theme._id); }, onEdit: handleThemeEdit, onDelete: () => onThemeDelete(theme.name, theme._id), selectedTheme: selectedTheme }))),
         react_1.default.createElement("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' } },
             react_1.default.createElement(core_1.Button, { style: { width: '100%' }, startIcon: react_1.default.createElement(icons_1.Home, null), onClick: onPageChange, className: 'button' }, "Home")),
         react_1.default.createElement("div", { style: { display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' } },

@@ -8,13 +8,15 @@ interface ChatBoxProp {
   onAddMessage: (role: string, content: string, response: string) => void;
   selectedTheme: string;
   setSelectedTheme : (themeName: string) => void;
-  addTheme :(themeName : string, message ?: string, response ?: string) => void;
+  addTheme :(themeName : string, message ?: string, response ?: string) => string;
   themes: Theme[];
+  setSelectedThemeid: (themeName: string) => void;
 }
 
 interface Theme {
   name: string;
   messages: Message[];
+  _id: string;
 }
 
 interface Message {
@@ -24,7 +26,7 @@ interface Message {
 }
 
 
-function ChatBox ({ onAddMessage, selectedTheme, setSelectedTheme, themes, addTheme}:ChatBoxProp) {
+function ChatBox ({ onAddMessage, selectedTheme, setSelectedTheme, themes, addTheme, setSelectedThemeid}:ChatBoxProp) {
   const [prompts, setPrompts] = useState<{role: string, content: string}[]>([{ role: 'system', content: 'You are a helpful assistant. Answer as concisely as possible with a little humor expression.' }]);
   //const [theme, setTheme] = useState(selectedTheme);
   const [isRecording, setIsRecording] = useState<boolean>(false);
@@ -52,7 +54,9 @@ function ChatBox ({ onAddMessage, selectedTheme, setSelectedTheme, themes, addTh
         input_text: 'generate this sentence a 5-word or less title:' + inputText,
       });
       setSelectedTheme(text.data);
-      addTheme(text.data, prompt, res.data);
+      var id = addTheme(text.data, prompt, res.data);
+      setSelectedThemeid(id)
+
     }
     onAddMessage( 'user', prompt, res.data);
     setPrompts(chatHistory);
